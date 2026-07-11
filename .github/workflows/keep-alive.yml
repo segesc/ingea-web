@@ -1,0 +1,17 @@
+# Mantiene despierta la instancia Free de Render (se duerme tras 15 min sin tráfico).
+# Con el repo público, los minutos de Actions son gratuitos e ilimitados.
+name: Mantener despierto Render
+
+on:
+  schedule:
+    - cron: '*/12 * * * *'
+  workflow_dispatch:
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping a la web
+        run: |
+          curl -sS -o /dev/null -w 'home: %{http_code}\n' --max-time 80 https://ingea.onrender.com/ || true
+          curl -sS -o /dev/null -w 'css:  %{http_code}\n' --max-time 80 https://ingea.onrender.com/css/styles.css || true
