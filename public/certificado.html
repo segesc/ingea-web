@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Certificado — INGEA</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M14 8 H50 C74 8 90 25 90 48 C90 72 73 90 48 90 C35 90 24 84 14 73 Z' fill='none' stroke='%231C3A26' stroke-width='9'/%3E%3Ccircle cx='44' cy='37' r='10' fill='%23EFAF3C'/%3E%3Cpath d='M46 96 C44 70 58 46 96 40 C99 70 82 94 50 97 Z' fill='%235F9E4E'/%3E%3C/svg%3E" />
+  <style>
+    :root {
+      --verde: #1c3a26; --verde-medio: #5f9e4e; --oro: #efaf3c; --oro-claro: #f4c465;
+      --tinta: #10160f; --gris: #5d635a;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #17211a; font-family: 'Inter', sans-serif; min-height: 100vh;
+      display: flex; flex-direction: column; align-items: center; padding: 32px 16px 64px; }
+
+    .barra-acciones { display: flex; gap: 14px; margin-bottom: 26px; flex-wrap: wrap; justify-content: center; }
+    .btn { padding: 12px 24px; border-radius: 999px; border: 0; cursor: pointer;
+      font: 600 14px 'Inter', sans-serif; display: inline-flex; gap: 8px; align-items: center; text-decoration: none; }
+    .btn-oro { background: var(--oro); color: var(--tinta); }
+    .btn-claro { background: rgba(255,255,255,.12); color: #fff; border: 1px solid rgba(255,255,255,.25); }
+
+    /* ---- hoja A4 horizontal (1123 x 794 px @96dpi) ---- */
+    .hoja-envoltura { width: 100%; max-width: 1123px; }
+    .hoja { position: relative; width: 1123px; height: 794px; background: #fff; overflow: hidden;
+      box-shadow: 0 30px 80px rgba(0,0,0,.45); transform-origin: top left; }
+
+    .cinta { position: absolute; pointer-events: none; }
+    .marca-agua { position: absolute; left: 200px; top: 170px; width: 560px; height: 560px; opacity: .045; }
+
+    .contenido { position: absolute; inset: 0; padding: 46px 96px 40px 210px; display: flex; flex-direction: column; align-items: center; text-align: center; }
+
+    .sello { background: var(--verde); color: #fff; border-radius: 18px; padding: 13px 32px;
+      display: flex; align-items: center; gap: 14px; border: 1.5px solid var(--oro); }
+    .sello-escudo { width: 46px; height: 46px; }
+    .sello b { font: 700 22px 'Space Grotesk', sans-serif; letter-spacing: .06em; display: block; text-align: left; }
+    .sello small { font: 500 8.5px 'Inter', sans-serif; letter-spacing: .12em; color: #cfdcc9; display: block; text-align: left; text-transform: uppercase; }
+
+    .qr-caja { position: absolute; top: 42px; right: 60px; text-align: center; }
+    .qr-caja img { width: 128px; height: 128px; display: block; border: 6px solid #fff; outline: 2px solid var(--verde); border-radius: 6px; }
+    .qr-caja span { font: 600 9px 'Inter', sans-serif; color: var(--gris); letter-spacing: .06em; display: block; margin-top: 6px; }
+
+    .tipo-curso { margin-top: 30px; font: 700 15px 'Space Grotesk', sans-serif; letter-spacing: .3em; color: var(--tinta); }
+    h1.certificado { font: 700 64px 'Space Grotesk', sans-serif; color: var(--verde-medio); letter-spacing: .04em; line-height: 1.05; margin-top: 2px; }
+    .otorgado { margin-top: 14px; font: 600 13px 'Inter', sans-serif; color: var(--gris); }
+    .nombre-alumno { font: 600 34px 'Fraunces', serif; font-style: italic; color: var(--tinta); margin-top: 4px;
+      border-bottom: 2.5px solid var(--oro); padding: 0 34px 8px; }
+    .doc-alumno { margin-top: 12px; font: 600 13px 'Inter', sans-serif; color: var(--tinta); }
+    .por-haber { margin-top: 4px; font: 600 12.5px 'Inter', sans-serif; color: var(--gris); }
+    .nombre-curso { font: 600 27px 'Space Grotesk', sans-serif; color: var(--verde); margin-top: 10px; max-width: 720px; line-height: 1.25; }
+    .detalle { margin-top: 14px; font: 500 12.5px/1.7 'Inter', sans-serif; color: var(--tinta); max-width: 690px; }
+    .detalle b { color: var(--verde); }
+
+    .firmas { margin-top: auto; display: flex; gap: 150px; justify-content: center; width: 100%; padding-bottom: 8px; }
+    .firma { text-align: center; min-width: 230px; }
+    .firma .linea { border-top: 2px solid var(--tinta); margin-bottom: 8px; }
+    .firma b { font: 700 12.5px 'Inter', sans-serif; display: block; }
+    .firma span { font: 600 11px 'Inter', sans-serif; color: var(--gris); letter-spacing: .04em; }
+
+    .codigo-pie { position: absolute; bottom: 18px; left: 210px; font: 600 10px 'Inter', sans-serif; color: var(--gris); letter-spacing: .05em; }
+    .web-lateral { position: absolute; right: 20px; bottom: 130px; font: 700 11px 'Space Grotesk', sans-serif; color: var(--verde);
+      letter-spacing: .14em; writing-mode: vertical-rl; }
+
+    .anulado-banda { position: absolute; inset: 0; display: none; place-items: center; z-index: 50; }
+    .anulado-banda span { font: 700 90px 'Space Grotesk', sans-serif; color: rgba(179, 64, 47, .28); transform: rotate(-22deg);
+      border: 8px solid rgba(179,64,47,.28); padding: 10px 50px; border-radius: 20px; }
+
+    .mensaje-error { color: #fff; font: 600 18px 'Inter', sans-serif; margin-top: 80px; text-align: center; }
+
+    @media print {
+      @page { size: A4 landscape; margin: 0; }
+      body { background: #fff; padding: 0; display: block; }
+      .barra-acciones { display: none; }
+      .hoja-envoltura { max-width: none; }
+      .hoja { box-shadow: none; transform: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="barra-acciones">
+    <a class="btn btn-claro" href="/admin">← Volver al panel</a>
+    <button class="btn btn-oro" onclick="window.print()">🖨 Imprimir / Guardar como PDF</button>
+  </div>
+
+  <div class="hoja-envoltura" id="envoltura">
+    <div class="hoja" id="hoja" style="display:none">
+      <!-- cintas decorativas: chevrones de fondo + cinta pino/ámbar -->
+      <svg class="cinta" style="left:0;top:0" width="240" height="794" viewBox="0 0 240 794">
+        <path d="M0 0 L150 0 L60 300 L170 794 L0 794 Z" fill="#f0efe8"/>
+        <path d="M0 60 L96 60 L30 320 L110 794 L20 794 L-40 480 Z" fill="#e5e3d6"/>
+        <path d="M0 0 L64 0 C 90 190, 10 260, 46 420 C 74 545, 120 620, 96 794 L 30 794 C 58 640, 6 560, -6 430 C -18 300, 26 170, 0 0 Z" fill="url(#gradVerde)"/>
+        <path d="M64 0 L96 0 C 118 180, 44 268, 76 420 C 100 540, 140 630, 118 794 L 96 794 C 120 620, 74 545, 46 420 C 10 260, 90 190, 64 0 Z" fill="url(#gradOro)"/>
+        <defs>
+          <linearGradient id="gradVerde" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#2c5636"/><stop offset=".5" stop-color="#5f9e4e"/><stop offset="1" stop-color="#1c3a26"/>
+          </linearGradient>
+          <linearGradient id="gradOro" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#f4c465"/><stop offset=".55" stop-color="#efaf3c"/><stop offset="1" stop-color="#f4c465"/>
+          </linearGradient>
+        </defs>
+      </svg>
+      <svg class="cinta" style="right:0;bottom:0" width="300" height="420" viewBox="0 0 300 420">
+        <path d="M300 420 L300 120 L210 200 L120 420 Z" fill="#f0efe8"/>
+        <path d="M300 420 L300 230 L230 280 L180 420 Z" fill="#e5e3d6"/>
+        <path d="M300 420 L300 300 C 220 310, 190 350, 150 420 Z" fill="url(#gradVerde)" opacity=".92"/>
+      </svg>
+      <!-- marca de agua: logo institucional -->
+      <svg class="marca-agua" viewBox="0 0 100 100">
+        <path d="M14 8 H50 C74 8 90 25 90 48 C90 72 73 90 48 90 C35 90 24 84 14 73 Z" fill="none" stroke="#1c3a26" stroke-width="6"/>
+        <circle cx="44" cy="37" r="10" fill="#1c3a26"/>
+        <path d="M46 96 C44 70 58 46 96 40 C99 70 82 94 50 97 Z" fill="#1c3a26"/>
+      </svg>
+
+      <div class="qr-caja">
+        <img id="qrImg" alt="QR de verificación" />
+        <span id="qrCodigo"></span>
+      </div>
+
+      <div class="contenido">
+        <div class="sello">
+          <svg class="sello-escudo" viewBox="0 0 100 100">
+            <defs>
+              <mask id="selloA">
+                <rect width="100" height="100" fill="#fff"/>
+                <path d="M46 96 C44 70 58 46 96 40 C99 70 82 94 50 97 Z" fill="#000" transform="translate(-6 -5) scale(1.12)"/>
+              </mask>
+              <mask id="selloB">
+                <path d="M46 96 C44 70 58 46 96 40 C99 70 82 94 50 97 Z" fill="#fff"/>
+                <path d="M50 94 C56 74 68 58 88 48" fill="none" stroke="#000" stroke-width="7" stroke-linecap="round"/>
+              </mask>
+            </defs>
+            <path d="M14 8 H50 C74 8 90 25 90 48 C90 72 73 90 48 90 C35 90 24 84 14 73 Z"
+                  fill="none" stroke="#F4F1E8" stroke-width="9" mask="url(#selloA)"/>
+            <circle cx="44" cy="37" r="10" fill="#EFAF3C"/>
+            <path d="M46 96 C44 70 58 46 96 40 C99 70 82 94 50 97 Z" fill="#5F9E4E" mask="url(#selloB)"/>
+          </svg>
+          <span><b>INGEA</b><small>Instituto de Especialización en Gestión e Ingeniería Ambiental</small></span>
+        </div>
+
+        <div class="tipo-curso">CURSO DE ESPECIALIZACIÓN</div>
+        <h1 class="certificado">CERTIFICADO</h1>
+        <div class="otorgado">Otorgado a:</div>
+        <div class="nombre-alumno" id="cNombre">—</div>
+        <div class="doc-alumno" id="cDocumento">—</div>
+        <div class="por-haber">Por haber aprobado satisfactoriamente el curso de:</div>
+        <div class="nombre-curso" id="cCurso">—</div>
+        <p class="detalle" id="cDetalle"></p>
+
+        <div class="firmas">
+          <div class="firma"><div class="linea"></div><b>Gerente General</b><span>INGEA</span></div>
+          <div class="firma"><div class="linea"></div><b>Director Académico</b><span>INGEA</span></div>
+        </div>
+      </div>
+
+      <div class="codigo-pie" id="cPie"></div>
+      <div class="web-lateral">WWW.INGEA.EDU.PE</div>
+      <div class="anulado-banda" id="bandaAnulado"><span>ANULADO</span></div>
+    </div>
+  </div>
+  <div class="mensaje-error" id="msgError" style="display:none"></div>
+
+  <script>
+    (async () => {
+      const codigo = decodeURIComponent(location.pathname.split('/').pop()).toUpperCase();
+      const data = await fetch(`/api/verificar/${encodeURIComponent(codigo)}`).then((r) => r.json());
+
+      if (!data.certificado) {
+        document.getElementById('msgError').style.display = 'block';
+        document.getElementById('msgError').textContent = `No existe ningún certificado con el código ${codigo}.`;
+        return;
+      }
+      const c = data.certificado;
+      const fmt = (iso) => {
+        const [a, m, d] = iso.split('-');
+        const meses = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+        return `${Number(d)} de ${meses[Number(m) - 1]} de ${a}`;
+      };
+
+      document.title = `Certificado ${c.codigo} — ${c.nombre}`;
+      document.getElementById('hoja').style.display = 'block';
+      document.getElementById('cNombre').textContent = c.nombre;
+      document.getElementById('cDocumento').textContent = `Documento de identidad: ${c.tipoDoc} N.° ${c.documento}`;
+      document.getElementById('cCurso').textContent = c.curso;
+      document.getElementById('cDetalle').innerHTML =
+        `Desarrollado por <b>INGEA — Instituto de Especialización en Gestión e Ingeniería Ambiental</b>, en convenio con el Colegio de Ingenieros del Perú — CD Lima, con una duración de <b>${c.horas} horas académicas</b>, del <b>${fmt(c.fechaInicio)}</b> al <b>${fmt(c.fechaFin)}</b>.`;
+      document.getElementById('qrImg').src = `/api/qr/${c.codigo}`;
+      document.getElementById('qrCodigo').textContent = c.codigo;
+      document.getElementById('cPie').textContent = `Código de verificación: ${c.codigo}  ·  Emitido el ${fmt(c.fechaEmision)}  ·  Verifícalo en ${location.origin}/verificar`;
+      if (c.estado === 'anulado') document.getElementById('bandaAnulado').style.display = 'grid';
+
+      // escalar la hoja para que quepa en pantalla
+      const escalar = () => {
+        const hoja = document.getElementById('hoja');
+        const disponible = document.getElementById('envoltura').clientWidth;
+        const escala = Math.min(1, disponible / 1123);
+        hoja.style.transform = `scale(${escala})`;
+        document.getElementById('envoltura').style.height = `${794 * escala}px`;
+      };
+      escalar();
+      window.addEventListener('resize', escalar);
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Curso — INGEA</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/styles.css" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M14 8 H50 C74 8 90 25 90 48 C90 72 73 90 48 90 C35 90 24 84 14 73 Z' fill='none' stroke='%231C3A26' stroke-width='9'/%3E%3Ccircle cx='44' cy='37' r='10' fill='%23EFAF3C'/%3E%3Cpath d='M46 96 C44 70 58 46 96 40 C99 70 82 94 50 97 Z' fill='%235F9E4E'/%3E%3C/svg%3E" />
+</head>
+<body>
+  <div id="appNav"></div>
+
+  <header class="curso-hero" id="cursoHero">
+    <span class="marca-fondo" id="marcaFondo"></span>
+    <div class="contenedor">
+      <div class="miga"><a href="/">Inicio</a> / <a href="/#cursos">Cursos</a> / <span id="migaCat"></span></div>
+      <span class="micro claro">Curso de especialización</span>
+      <h1 id="cursoNombre">Cargando…</h1>
+      <p class="sub" id="cursoResumen"></p>
+    </div>
+  </header>
+
+  <div class="contenedor curso-layout">
+    <main class="curso-contenido">
+      <section class="bloque" data-subir>
+        <span class="micro">Presentación</span>
+        <h2 style="margin-top:14px">Sobre el programa</h2>
+        <p id="cursoDescripcion"></p>
+      </section>
+
+      <section class="bloque" data-subir>
+        <span class="micro">Perfil</span>
+        <h2 style="margin-top:14px">¿A quién está dirigido?</h2>
+        <ul class="lista-check" id="cursoDirigido"></ul>
+      </section>
+
+      <section class="bloque" data-subir>
+        <span class="micro">Temario</span>
+        <h2 style="margin-top:14px">Plan de estudios</h2>
+        <div class="acordeon" id="cursoModulos"></div>
+      </section>
+
+      <section class="bloque" data-subir>
+        <span class="micro">Docente</span>
+        <div class="docente-tarjeta" style="margin-top:18px">
+          <span class="avatar" id="docenteAvatar"></span>
+          <div><b id="docenteNombre" style="font-family:var(--f-display);font-size:19px"></b><p id="docenteTitulo" style="font-size:14px;color:var(--gris)"></p></div>
+        </div>
+      </section>
+
+      <section class="bloque" data-subir>
+        <span class="micro">Certificación</span>
+        <h2 style="margin-top:14px">Certificado con trazabilidad</h2>
+        <p>Al aprobar el curso recibirás un <b>certificado digital a nombre de INGEA</b>, emitido en convenio institucional, con <b>código único y QR de trazabilidad</b> que cualquier empleador puede verificar en línea en <a href="/verificar" style="color:var(--hoja);font-weight:600;text-decoration:underline">nuestra página de verificación</a>.</p>
+      </section>
+    </main>
+
+    <aside class="ficha-lateral" id="fichaLateral">
+      <div class="ficha-cab" id="fichaCab">
+        <small>Inversión — pronto pago</small>
+        <div class="ficha-precio"><b id="fichaPrecioPP"></b><s id="fichaPrecio"></s></div>
+      </div>
+      <div class="ficha-cuerpo">
+        <div class="ficha-fila"><span>Inicio</span><b id="fichaInicio"></b></div>
+        <div class="ficha-fila"><span>Duración</span><b id="fichaDuracion"></b></div>
+        <div class="ficha-fila"><span>Horas académicas</span><b id="fichaHoras"></b></div>
+        <div class="ficha-fila"><span>Modalidad</span><b id="fichaModalidad"></b></div>
+        <div class="ficha-fila"><span>Certificación</span><b>Con QR verificable</b></div>
+        <a class="btn btn-ws" id="btnInscribir" href="#" target="_blank" rel="noopener"></a>
+        <a class="btn btn-borde" id="btnBrochure" href="#">Descargar brochure (PDF) ↓</a>
+      </div>
+    </aside>
+  </div>
+
+  <div id="appFooter"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js"></script>
+  <script src="/js/main.js"></script>
+  <script>
+    (async () => {
+      const slug = location.pathname.split('/').pop();
+      const [curso] = await Promise.all([
+        fetch(`/api/cursos/${slug}`).then((r) => (r.ok ? r.json() : null)),
+        INGEA.montarBase(),
+      ]);
+
+      if (!curso) {
+        document.getElementById('cursoNombre').textContent = 'Curso no encontrado';
+        document.getElementById('fichaLateral').style.display = 'none';
+        return;
+      }
+
+      document.title = `${curso.nombre} — INGEA`;
+      document.getElementById('cursoHero').style.background =
+        `linear-gradient(100deg, rgba(13,17,11,.94) 25%, rgba(20,30,20,.62)), url('${curso.imagen}') center 35%/cover no-repeat`;
+      document.getElementById('marcaFondo').innerHTML = INGEA.logoSVG(420, '#F4F1E8');
+      document.getElementById('migaCat').textContent = curso.categoria;
+      document.getElementById('cursoNombre').textContent = curso.nombre;
+      document.getElementById('cursoResumen').textContent = curso.resumen;
+      document.getElementById('cursoDescripcion').textContent = curso.descripcion;
+
+      document.getElementById('cursoDirigido').innerHTML = curso.dirigido
+        .map((d) => `<li>${INGEA.icono('check', 18)}<span>${d}</span></li>`).join('');
+
+      document.getElementById('cursoModulos').innerHTML = curso.modulos
+        .map((m, i) => `
+          <details class="modulo" ${i === 0 ? 'open' : ''}>
+            <summary>Módulo ${i + 1} — ${m.titulo}</summary>
+            <ul>${m.temas.map((t) => `<li>${t}</li>`).join('')}</ul>
+          </details>`).join('');
+
+      document.getElementById('docenteAvatar').textContent = curso.docente.nombre.split(' ').filter((w) => w[0] === w[0].toUpperCase()).slice(-2).map((w) => w[0]).join('');
+      document.getElementById('docenteNombre').textContent = curso.docente.nombre;
+      document.getElementById('docenteTitulo').textContent = curso.docente.titulo;
+
+      document.getElementById('fichaCab').style.background = `linear-gradient(135deg, #1c3a26, ${curso.color} 180%)`;
+      document.getElementById('fichaPrecioPP').textContent = INGEA.soles(curso.precioProntoPago);
+      document.getElementById('fichaPrecio').textContent = INGEA.soles(curso.precio);
+      document.getElementById('fichaInicio').textContent = curso.inicio;
+      document.getElementById('fichaDuracion').textContent = `${curso.semanas} semanas`;
+      document.getElementById('fichaHoras').textContent = `${curso.horas} horas`;
+      document.getElementById('fichaModalidad').textContent = 'En vivo + aula virtual';
+
+      const btnIns = document.getElementById('btnInscribir');
+      btnIns.innerHTML = `${INGEA.svgWhatsApp(18)} Inscribirme por WhatsApp`;
+      btnIns.href = INGEA.linkWhatsApp(`Hola INGEA, quiero inscribirme en el curso "${curso.nombre}" (inicio ${curso.inicio}). ¿Me envían los pasos de matrícula?`);
+      document.getElementById('btnBrochure').href = `/api/brochure/${curso.slug}`;
+
+      INGEA.animar();
+    })();
+  </script>
+</body>
+</html>

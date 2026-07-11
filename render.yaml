@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: ingea
+    runtime: node
+    plan: free
+    buildCommand: npm install --omit=dev
+    startCommand: node server.js
+    envVars:
+      - key: INGEA_ADMIN_USER
+        sync: false
+      - key: INGEA_ADMIN_PASS
+        sync: false

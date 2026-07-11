@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Verificar certificado — INGEA</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/styles.css" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M14 8 H50 C74 8 90 25 90 48 C90 72 73 90 48 90 C35 90 24 84 14 73 Z' fill='none' stroke='%231C3A26' stroke-width='9'/%3E%3Ccircle cx='44' cy='37' r='10' fill='%23EFAF3C'/%3E%3Cpath d='M46 96 C44 70 58 46 96 40 C99 70 82 94 50 97 Z' fill='%235F9E4E'/%3E%3C/svg%3E" />
+</head>
+<body class="pagina-simple">
+  <div id="appNav"></div>
+
+  <main class="panel-verificar">
+    <span class="micro">Trazabilidad INGEA</span>
+    <h1>Verificación de <span class="it" style="font-style:italic;font-weight:420">certificados</span></h1>
+    <p>Ingresa el código impreso en el certificado (o escanea su QR) para validar su autenticidad y trazabilidad.</p>
+    <form id="formVerificar">
+      <div class="campo">
+        <label for="codigo">Código del certificado</label>
+        <input id="codigo" name="codigo" placeholder="Ej. INGEA-2026-A1B2C3" autocomplete="off" required />
+      </div>
+      <button class="btn btn-tinta" type="submit" style="width:100%;justify-content:center">Verificar</button>
+    </form>
+    <div class="resultado" id="resultado"></div>
+  </main>
+
+  <div id="appFooter"></div>
+
+  <script src="/js/main.js"></script>
+  <script>
+    (async () => {
+      await INGEA.montarBase('Hola INGEA, tengo una consulta sobre la verificación de un certificado.');
+
+      const form = document.getElementById('formVerificar');
+      const input = document.getElementById('codigo');
+      const caja = document.getElementById('resultado');
+
+      async function verificar(codigo) {
+        caja.className = 'resultado';
+        caja.innerHTML = '';
+        const data = await fetch(`/api/verificar/${encodeURIComponent(codigo)}`).then((r) => r.json());
+        if (data.valido) {
+          const c = data.certificado;
+          caja.className = 'resultado ok';
+          caja.innerHTML = `
+            <h2>${INGEA.icono('check', 22)} Certificado válido y vigente</h2>
+            <div class="detalle-cert">
+              <div><span>Código</span><b>${c.codigo}</b></div>
+              <div><span>Otorgado a</span><b>${c.nombre}</b></div>
+              <div><span>Documento</span><b>${c.tipoDoc} ${c.documento}</b></div>
+              <div><span>Curso</span><b>${c.curso}</b></div>
+              <div><span>Horas académicas</span><b>${c.horas} h</b></div>
+              <div><span>Periodo</span><b>${c.fechaInicio} al ${c.fechaFin}</b></div>
+              <div><span>Fecha de emisión</span><b>${c.fechaEmision}</b></div>
+            </div>`;
+        } else if (data.certificado && data.certificado.estado === 'anulado') {
+          caja.className = 'resultado mal';
+          caja.innerHTML = `<h2>⚠ Certificado anulado</h2><p style="font-size:14px">El código <b>${data.certificado.codigo}</b> corresponde a un certificado que fue anulado por la institución. Para más información contáctanos por WhatsApp.</p>`;
+        } else {
+          caja.className = 'resultado mal';
+          caja.innerHTML = `<h2>✕ Certificado no encontrado</h2><p style="font-size:14px">El código ingresado no figura en nuestros registros. Revisa que esté escrito correctamente (formato INGEA-AAAA-XXXXXX) o contáctanos por WhatsApp.</p>`;
+        }
+      }
+
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        verificar(input.value.trim());
+      });
+
+      // Si llega por QR: /verificar/CODIGO
+      const partes = location.pathname.split('/').filter(Boolean);
+      if (partes.length === 2 && partes[0] === 'verificar') {
+        input.value = decodeURIComponent(partes[1]);
+        verificar(input.value);
+      }
+    })();
+  </script>
+</body>
+</html>

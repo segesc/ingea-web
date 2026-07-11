@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Panel administrativo — INGEA</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/styles.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%23C9A227'/><text x='50' y='68' font-size='52' text-anchor='middle' fill='%230B3D2E' font-family='Georgia'>A</text></svg>" />
+</head>
+<body class="admin-body">
+
+  <!-- LOGIN -->
+  <section id="vistaLogin">
+    <div class="admin-login">
+      <span id="logoLogin"></span>
+      <h1>Panel administrativo</h1>
+      <p>Acceso exclusivo para personal autorizado de INGEA.</p>
+      <form id="formLogin">
+        <div class="campo">
+          <label for="usuario">Usuario</label>
+          <input id="usuario" autocomplete="username" required />
+        </div>
+        <div class="campo">
+          <label for="clave">Clave</label>
+          <input id="clave" type="password" autocomplete="current-password" required />
+        </div>
+        <button class="btn btn-oro" type="submit" style="width:100%;justify-content:center;margin-top:6px">Ingresar</button>
+        <div class="error-msg" id="loginError"></div>
+      </form>
+      <a href="/" style="font-size:13px;color:#92ab9e">← Volver a la web pública</a>
+    </div>
+  </section>
+
+  <!-- DASHBOARD -->
+  <section id="vistaPanel" style="display:none">
+    <div class="admin-main">
+      <div class="admin-barra">
+        <div class="logo">
+          <span class="logo-marca" id="logoAdmin"></span>
+          <span class="logo-texto"><b style="color:#fff">INGEA</b><small style="color:#8fa08d">Panel de certificados</small></span>
+        </div>
+        <div style="display:flex;gap:12px">
+          <a class="btn-mini" href="/" target="_blank">Ver web pública</a>
+          <button class="btn-mini peligro" id="btnSalir">Cerrar sesión</button>
+        </div>
+      </div>
+
+      <div class="grid-stats">
+        <div class="stat"><b id="statTotal">0</b><span>Certificados emitidos</span></div>
+        <div class="stat"><b id="statVigentes">0</b><span>Vigentes</span></div>
+        <div class="stat"><b id="statAnulados">0</b><span>Anulados</span></div>
+        <div class="stat"><b id="statMes">0</b><span>Emitidos este mes</span></div>
+      </div>
+
+      <div class="panel-admin">
+        <h2>Generar nuevo certificado</h2>
+        <form id="formCert">
+          <div class="form-grid">
+            <div class="campo" style="grid-column: span 2">
+              <label>Nombre completo del alumno</label>
+              <input id="cNombre" placeholder="Ej. Juan Alberto Pérez Quispe" required />
+            </div>
+            <div class="campo">
+              <label>Tipo de documento</label>
+              <select id="cTipoDoc"><option>DNI</option><option>CE</option><option>Pasaporte</option></select>
+            </div>
+            <div class="campo">
+              <label>N.° de documento</label>
+              <input id="cDocumento" placeholder="Ej. 71234567" required />
+            </div>
+            <div class="campo" style="grid-column: span 2">
+              <label>Curso</label>
+              <select id="cCurso" required></select>
+            </div>
+            <div class="campo">
+              <label>Horas académicas</label>
+              <input id="cHoras" type="number" min="1" required />
+            </div>
+            <div class="campo">
+              <label>Fecha de inicio</label>
+              <input id="cInicio" type="date" required />
+            </div>
+            <div class="campo">
+              <label>Fecha de fin</label>
+              <input id="cFin" type="date" required />
+            </div>
+          </div>
+          <div class="form-acciones">
+            <button class="btn btn-oro" type="submit">Generar certificado con QR</button>
+            <span class="aviso-ok" id="avisoCert"></span>
+          </div>
+        </form>
+      </div>
+
+      <div class="panel-admin">
+        <h2>Certificados emitidos</h2>
+        <div class="campo busqueda-tabla">
+          <input id="buscar" placeholder="Buscar por nombre, documento, código o curso…" />
+        </div>
+        <div class="tabla-scroll">
+          <table class="certs">
+            <thead>
+              <tr><th>Código</th><th>Alumno</th><th>Documento</th><th>Curso</th><th>Periodo</th><th>Estado</th><th>Acciones</th></tr>
+            </thead>
+            <tbody id="tbodyCerts"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script src="/js/main.js"></script>
+  <script>
+    (async () => {
+      await INGEA.cargarConfig();
+      document.getElementById('logoAdmin').innerHTML = INGEA.logoSVG(38, '#F4F1E8');
+      document.getElementById('logoLogin').innerHTML = INGEA.logoSVG(48, '#F4F1E8');
+
+      const $ = (id) => document.getElementById(id);
+      let token = sessionStorage.getItem('ingeaToken') || '';
+      let cursos = [];
+      let certs = [];
+
+      const api = (ruta, opciones = {}) =>
+        fetch(ruta, {
+          ...opciones,
+          headers: { 'Content-Type': 'application/json', 'x-admin-token': token, ...(opciones.headers || {}) },
+        });
+
+      function mostrarPanel(si) {
+        $('vistaLogin').style.display = si ? 'none' : 'block';
+        $('vistaPanel').style.display = si ? 'block' : 'none';
+      }
+
+      // ---------- login ----------
+      $('formLogin').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        $('loginError').textContent = '';
+        const r = await fetch('/api/admin/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ usuario: $('usuario').value.trim(), clave: $('clave').value }),
+        });
+        if (!r.ok) {
+          $('loginError').textContent = 'Usuario o clave incorrectos.';
+          return;
+        }
+        token = (await r.json()).token;
+        sessionStorage.setItem('ingeaToken', token);
+        await iniciarPanel();
+      });
+
+      $('btnSalir').addEventListener('click', async () => {
+        await api('/api/admin/logout', { method: 'POST' }).catch(() => {});
+        sessionStorage.removeItem('ingeaToken');
+        token = '';
+        mostrarPanel(false);
+      });
+
+      // ---------- panel ----------
+      async function iniciarPanel() {
+        const r = await api('/api/admin/certificados');
+        if (!r.ok) { // token vencido o inválido
+          sessionStorage.removeItem('ingeaToken');
+          token = '';
+          mostrarPanel(false);
+          return;
+        }
+        certs = await r.json();
+        cursos = await fetch('/api/cursos').then((x) => x.json());
+        $('cCurso').innerHTML = cursos.map((c) => `<option value="${c.slug}">${c.nombre}</option>`).join('') +
+          '<option value="">— Otro curso (personalizado) —</option>';
+        $('cHoras').value = cursos[0]?.horas || 120;
+        mostrarPanel(true);
+        pintar();
+      }
+
+      // autocompletar horas al cambiar de curso
+      $('cCurso').addEventListener('change', () => {
+        const c = cursos.find((x) => x.slug === $('cCurso').value);
+        if (c) $('cHoras').value = c.horas;
+        if ($('cCurso').value === '') {
+          const nombre = prompt('Nombre del curso personalizado:');
+          if (nombre) {
+            const op = document.createElement('option');
+            op.value = `custom:${nombre}`;
+            op.textContent = nombre;
+            op.selected = true;
+            $('cCurso').appendChild(op);
+          }
+        }
+      });
+
+      function pintar() {
+        const mes = new Date().toISOString().slice(0, 7);
+        $('statTotal').textContent = certs.length;
+        $('statVigentes').textContent = certs.filter((c) => c.estado === 'vigente').length;
+        $('statAnulados').textContent = certs.filter((c) => c.estado === 'anulado').length;
+        $('statMes').textContent = certs.filter((c) => c.fechaEmision.startsWith(mes)).length;
+
+        const q = $('buscar').value.trim().toLowerCase();
+        const filtrados = certs.filter((c) =>
+          !q || [c.codigo, c.nombre, c.documento, c.cursoNombre].join(' ').toLowerCase().includes(q)
+        );
+        $('tbodyCerts').innerHTML = filtrados.length
+          ? filtrados.map((c) => `
+            <tr>
+              <td><code>${c.codigo}</code></td>
+              <td>${c.nombre}</td>
+              <td>${c.tipoDoc} ${c.documento}</td>
+              <td style="max-width:260px">${c.cursoNombre}</td>
+              <td style="white-space:nowrap">${c.fechaInicio} → ${c.fechaFin}</td>
+              <td><span class="chip ${c.estado}">${c.estado.toUpperCase()}</span></td>
+              <td>
+                <div class="acciones-cert">
+                  <a class="btn-mini" href="/certificado/${c.codigo}" target="_blank">🖨 Certificado</a>
+                  <a class="btn-mini" href="/verificar/${c.codigo}" target="_blank">✓ Verificar</a>
+                  <button class="btn-mini peligro" data-anular="${c.codigo}">${c.estado === 'vigente' ? 'Anular' : 'Reactivar'}</button>
+                </div>
+              </td>
+            </tr>`).join('')
+          : '<tr><td colspan="7" style="color:#92ab9e;padding:24px">No hay certificados que coincidan.</td></tr>';
+
+        document.querySelectorAll('[data-anular]').forEach((b) =>
+          b.addEventListener('click', async () => {
+            const codigo = b.dataset.anular;
+            const cert = certs.find((c) => c.codigo === codigo);
+            const accion = cert.estado === 'vigente' ? 'anular' : 'reactivar';
+            if (!confirm(`¿Seguro que deseas ${accion} el certificado ${codigo}?`)) return;
+            const r = await api(`/api/admin/certificados/${codigo}/anular`, { method: 'POST' });
+            if (r.ok) {
+              const actualizado = await r.json();
+              Object.assign(cert, actualizado);
+              pintar();
+            }
+          })
+        );
+      }
+
+      $('buscar').addEventListener('input', pintar);
+
+      // ---------- crear certificado ----------
+      $('formCert').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        $('avisoCert').textContent = '';
+        const valor = $('cCurso').value;
+        const body = {
+          nombre: $('cNombre').value,
+          tipoDoc: $('cTipoDoc').value,
+          documento: $('cDocumento').value,
+          cursoSlug: valor.startsWith('custom:') || valor === '' ? null : valor,
+          cursoNombre: valor.startsWith('custom:') ? valor.slice(7) : null,
+          horas: $('cHoras').value,
+          fechaInicio: $('cInicio').value,
+          fechaFin: $('cFin').value,
+        };
+        const r = await api('/api/admin/certificados', { method: 'POST', body: JSON.stringify(body) });
+        if (!r.ok) {
+          const err = await r.json().catch(() => ({}));
+          $('avisoCert').textContent = `⚠ ${err.error || 'Error al generar'}`;
+          return;
+        }
+        const nuevo = await r.json();
+        certs.unshift(nuevo);
+        pintar();
+        $('formCert').reset();
+        $('cHoras').value = cursos[0]?.horas || 120;
+        $('avisoCert').textContent = `✔ Certificado ${nuevo.codigo} generado.`;
+        window.open(`/certificado/${nuevo.codigo}`, '_blank');
+      });
+
+      // ---------- arranque ----------
+      if (token) await iniciarPanel();
+    })();
+  </script>
+</body>
+</html>

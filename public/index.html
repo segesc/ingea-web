@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>INGEA — Especialización en Ingeniería y Gestión Ambiental</title>
+  <meta name="description" content="Cursos de especialización en gestión ambiental, IGA, EIA, fiscalización OEFA, monitoreo ambiental, residuos sólidos e ISO 14001. Certificación verificable con QR." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/styles.css" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M14 8 H50 C74 8 90 25 90 48 C90 72 73 90 48 90 C35 90 24 84 14 73 Z' fill='none' stroke='%231C3A26' stroke-width='9'/%3E%3Ccircle cx='44' cy='37' r='10' fill='%23EFAF3C'/%3E%3Cpath d='M46 96 C44 70 58 46 96 40 C99 70 82 94 50 97 Z' fill='%235F9E4E'/%3E%3C/svg%3E" />
+</head>
+<body>
+  <div id="appNav"></div>
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="contenedor">
+      <span class="micro" data-fundido>Instituto de especialización · Lima, Perú</span>
+      <h1 class="hero-titulo" style="margin-top:26px">
+        <span class="linea-mascara"><span data-linea>Ingeniería</span></span>
+        <span class="linea-mascara"><span data-linea><span class="it">ambiental</span> de</span></span>
+        <span class="linea-mascara"><span data-linea>alto <span class="hoja-palabra">nivel</span></span></span>
+      </h1>
+      <div class="hero-bajo">
+        <div data-fundido>
+          <p>Programas de especialización dictados en vivo por profesionales que han trabajado en SENACE, OEFA y consultoría ambiental. Certificación con QR verificable en línea.</p>
+          <div class="hero-acciones">
+            <a href="#cursos" class="btn btn-tinta btn-mag">Explorar cursos <span class="flecha-btn">→</span></a>
+            <a href="#" class="btn btn-borde btn-mag" data-ws="Hola INGEA, quiero asesoría para elegir un curso de especialización.">Hablar con un asesor</a>
+          </div>
+        </div>
+        <div class="hero-sello" data-fundido>
+          <div class="rotor">
+            <svg class="texto-circular" viewBox="0 0 128 128" width="128" height="128">
+              <defs><path id="circ" d="M64 12 a52 52 0 1 1 -0.01 0" fill="none"/></defs>
+              <text style="font:600 11.5px 'Space Grotesk',sans-serif;letter-spacing:.22em;fill:#5d635a">
+                <textPath href="#circ">CERTIFICACIÓN VERIFICABLE · CONVENIO CIP ·</textPath>
+              </text>
+            </svg>
+            <span class="centro" id="selloLogo"></span>
+          </div>
+        </div>
+      </div>
+      <div class="hero-stats">
+        <div data-fundido><b><em>+</em><span data-contar="2400">0</span></b><span>Profesionales capacitados</span></div>
+        <div data-fundido><b><span data-contar="8">0</span></b><span>Programas especializados</span></div>
+        <div data-fundido><b><em>+</em><span data-contar="120">0</span></b><span>Horas por programa</span></div>
+        <div data-fundido><b><span data-contar="98">0</span><em>%</em></b><span>Satisfacción de egresados</span></div>
+      </div>
+      <div class="marco-img hero-imagen" data-cortina>
+        <img src="/img/hero-panorama.jpg" alt="Paisaje de montañas y bosque" data-parallax="-14" />
+        <span class="credito">Campo real · Andes y Amazonía</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- MARQUEE -->
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee-pista" id="marqueePista"></div>
+  </div>
+
+  <!-- CURSOS -->
+  <section class="seccion" id="cursos">
+    <div class="contenedor">
+      <div class="cabecera-seccion" data-subir>
+        <div>
+          <span class="micro">Oferta académica 2026</span>
+          <h2 class="titulo-seccion" style="margin-top:18px">Cursos de <span class="it">especialización</span></h2>
+        </div>
+        <span class="indice-gigante">08</span>
+      </div>
+      <div class="lista-cursos" id="listaCursos" data-grupo></div>
+    </div>
+  </section>
+  <div class="preview-flotante" id="previewCursos" aria-hidden="true"></div>
+
+  <!-- POR QUÉ INGEA -->
+  <section class="oscuro" id="instituto">
+    <div class="seccion">
+      <div class="contenedor">
+        <div class="instituto-grid">
+          <p class="declaracion" data-subir>"Formamos a los profesionales que <b>evalúan, fiscalizan y remedian</b> el impacto ambiental de los proyectos que mueven al país."</p>
+          <div class="marco-img" data-cortina>
+            <img src="/img/gal-turbinas.jpg" alt="Aerogeneradores al atardecer" data-parallax="-8" />
+            <span class="credito">Transición energética</span>
+          </div>
+        </div>
+        <div class="grid-caracteristicas" data-grupo>
+          <div class="caracteristica"><span class="num">01</span><h3>Certificación trazable</h3><p>Cada certificado lleva código único y QR que cualquier empleador valida en línea, en segundos.</p></div>
+          <div class="caracteristica"><span class="num">02</span><h3>Normativa vigente</h3><p>SEIA, SINEFA, ECA, LMP, D.L. 1278: programas alineados a la regulación ambiental peruana actual.</p></div>
+          <div class="caracteristica"><span class="num">03</span><h3>Docentes en ejercicio</h3><p>Especialistas que han pasado por SENACE, OEFA, laboratorios acreditados y consultoría de primer nivel.</p></div>
+          <div class="caracteristica"><span class="num">04</span><h3>Casos reales</h3><p>Expedientes, matrices y protocolos reales del sector: aprendes con el material que usarás en tu trabajo.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CERTIFICACIÓN -->
+  <section class="seccion" id="certificacion">
+    <div class="contenedor cert-grid">
+      <div data-subir>
+        <span class="micro">Trazabilidad</span>
+        <h2 class="titulo-seccion" style="margin-top:18px">Un certificado que <span class="it">se defiende solo</span></h2>
+        <ul class="cert-puntos">
+          <li><span class="pnum">01</span>Código único de emisión INGEA-AAAA-XXXXXX</li>
+          <li><span class="pnum">02</span>QR que enlaza a la verificación pública en línea</li>
+          <li><span class="pnum">03</span>Registro de horas, periodo y estado del certificado</li>
+          <li><span class="pnum">04</span>Emitido en convenio con el Colegio de Ingenieros del Perú</li>
+        </ul>
+        <div class="hero-acciones" style="margin-top:32px">
+          <a href="/verificar" class="btn btn-tinta btn-mag">Verificar un certificado <span class="flecha-btn">→</span></a>
+        </div>
+      </div>
+      <div data-subir>
+        <div class="escena-tilt" id="escenaTilt">
+          <div class="mini-cert" id="miniCert">
+            <svg class="mc-cinta" viewBox="0 0 168 794" preserveAspectRatio="none" aria-hidden="true">
+              <path d="M0 0 L120 0 L48 300 L136 794 L0 794 Z" fill="#f0efe8"/>
+              <path d="M0 60 L78 60 L24 320 L88 794 L16 794 L-32 480 Z" fill="#e5e3d6"/>
+              <path d="M0 0 L52 0 C 72 190, 8 260, 37 420 C 60 545, 96 620, 77 794 L 24 794 C 46 640, 5 560, -5 430 C -14 300, 21 170, 0 0 Z" fill="url(#mcGradV)"/>
+              <path d="M52 0 L77 0 C 94 180, 35 268, 61 420 C 80 540, 112 630, 94 794 L 77 794 C 96 620, 60 545, 37 420 C 8 260, 72 190, 52 0 Z" fill="url(#mcGradO)"/>
+              <defs>
+                <linearGradient id="mcGradV" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0" stop-color="#2c5636"/><stop offset=".5" stop-color="#5f9e4e"/><stop offset="1" stop-color="#1c3a26"/>
+                </linearGradient>
+                <linearGradient id="mcGradO" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0" stop-color="#f4c465"/><stop offset=".55" stop-color="#efaf3c"/><stop offset="1" stop-color="#f4c465"/>
+                </linearGradient>
+              </defs>
+            </svg>
+            <span class="mc-marca" id="mcMarca" aria-hidden="true"></span>
+
+            <div class="mc-sello">
+              <span id="mcLogo"></span>
+              <span><b>INGEA</b><small>Instituto de Especialización en Gestión e Ingeniería Ambiental</small></span>
+            </div>
+            <span class="mc-tipo">CURSO DE ESPECIALIZACIÓN</span>
+            <h4>CERTIFICADO</h4>
+            <span class="mc-otorgado">Otorgado a:</span>
+            <span class="mc-nombre">Nombre del Egresado</span>
+            <span class="mc-doc">Documento de identidad: DNI N.° 71234567</span>
+            <span class="mc-porhaber">Por haber aprobado satisfactoriamente el curso de:</span>
+            <span class="mc-curso">Instrumentos de Gestión Ambiental en el marco del SEIA</span>
+            <p class="mc-detalle">Desarrollado por <b>INGEA</b>, en convenio con el Colegio de Ingenieros del Perú — CD Lima, con una duración de <b>160 horas académicas</b>.</p>
+            <div class="mc-firmas">
+              <i>Gerente General<small>INGEA</small></i>
+              <i>Director Académico<small>INGEA</small></i>
+            </div>
+            <span class="mc-pie">CÓDIGO: INGEA-2026-A1B2C3 · VERIFICABLE EN LÍNEA</span>
+            <div class="mc-qr"><span id="mcQr"></span><span>INGEA-2026-A1B2C3</span></div>
+          </div>
+        </div>
+        <p class="cert-nota">← Muévelo con el cursor · así luce tu certificado</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- GALERÍA HORIZONTAL -->
+  <section class="galeria" id="campo">
+    <div class="contenedor galeria-cabecera" data-subir>
+      <span class="micro">El sector en acción</span>
+      <h2 class="titulo-seccion" style="margin-top:18px">Donde trabajan <span class="it">nuestros egresados</span></h2>
+    </div>
+    <div class="galeria-pista" id="galeriaPista">
+      <figure class="gal-item" data-cortina><img src="/img/gal-solar.jpg" alt="Planta solar" /><figcaption>Energías renovables</figcaption><span class="gal-num">01 / 05</span></figure>
+      <figure class="gal-item" data-cortina><img src="/img/curso-monitoreo.jpg" alt="Laboratorio ambiental" /><figcaption>Monitoreo y laboratorio</figcaption><span class="gal-num">02 / 05</span></figure>
+      <figure class="gal-item" data-cortina><img src="/img/gal-bosque.jpg" alt="Bosque tropical" /><figcaption>Conservación y restauración</figcaption><span class="gal-num">03 / 05</span></figure>
+      <figure class="gal-item" data-cortina><img src="/img/gal-niebla.jpg" alt="Cuenca altoandina" /><figcaption>Cuencas y recursos hídricos</figcaption><span class="gal-num">04 / 05</span></figure>
+      <figure class="gal-item" data-cortina><img src="/img/gal-campo.jpg" alt="Valle agrícola" /><figcaption>Agroindustria sostenible</figcaption><span class="gal-num">05 / 05</span></figure>
+    </div>
+  </section>
+
+  <!-- METODOLOGÍA -->
+  <section class="seccion" id="metodologia" style="padding-top:110px">
+    <div class="contenedor">
+      <div class="cabecera-seccion" data-subir>
+        <div>
+          <span class="micro">Cómo estudiarás</span>
+          <h2 class="titulo-seccion" style="margin-top:18px">Del primer mensaje <span class="it">al certificado</span></h2>
+        </div>
+      </div>
+      <div class="pasos-lista" data-grupo>
+        <div class="paso-fila"><h3>Inscríbete por WhatsApp</h3><p>Un asesor te guía en la matrícula, los medios de pago y el descuento por pronto pago. Sin formularios eternos.</p></div>
+        <div class="paso-fila"><h3>Clases en vivo</h3><p>Sesiones por Zoom en horario nocturno, con especialistas en ejercicio. Todas quedan grabadas en el aula virtual 24/7.</p></div>
+        <div class="paso-fila"><h3>Talleres con casos reales</h3><p>Expedientes, matrices de impacto y protocolos de monitoreo reales del sector ambiental peruano.</p></div>
+        <div class="paso-fila"><h3>Certifícate con QR</h3><p>Apruebas y recibes tu certificado con código único, verificable en línea por cualquier empleador.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIOS -->
+  <section class="seccion" id="testimonios" style="padding-top:30px">
+    <div class="contenedor">
+      <div class="cabecera-seccion" data-subir>
+        <div>
+          <span class="micro">Egresados</span>
+          <h2 class="titulo-seccion" style="margin-top:18px">Ellos ya <span class="it">dieron el paso</span></h2>
+        </div>
+      </div>
+      <div class="testimonios-lista" data-grupo>
+        <div class="testimonio-fila">
+          <div class="testimonio-quien"><img class="avatar-foto" src="/img/retrato-1.jpg" alt="María Cruzado" /><b>María Cruzado</b><span>Ing. Ambiental — Consultora EIA, Lima</span><div class="estrellas">★★★★★</div></div>
+          <blockquote>"El curso de IGA me permitió pasar de asistente a analista en una consultora inscrita ante SENACE. Los talleres con expedientes reales marcan la diferencia."</blockquote>
+        </div>
+        <div class="testimonio-fila">
+          <div class="testimonio-quien"><img class="avatar-foto" src="/img/retrato-2.jpg" alt="Julio Ticona" /><b>Julio Ticona</b><span>Supervisor ambiental — GORE Arequipa</span><div class="estrellas">★★★★★</div></div>
+          <blockquote>"Llevé el curso de fiscalización siendo supervisor de una EFA regional. Ahora entiendo el PAS de punta a punta y redacto actas mucho más sólidas."</blockquote>
+        </div>
+        <div class="testimonio-fila">
+          <div class="testimonio-quien"><img class="avatar-foto" src="/img/retrato-3.jpg" alt="Karen Reyes" /><b>Karen Reyes</b><span>Coordinadora SSOMA — Sector energía</span><div class="estrellas">★★★★★</div></div>
+          <blockquote>"La certificación con QR fue clave: mi empleador la verificó en línea al instante durante el proceso de selección."</blockquote>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA FINAL -->
+  <section class="cta-final">
+    <div class="contenedor" data-subir>
+      <h2>Tu carrera<br><span class="it">no espera</span></h2>
+      <p>Escríbenos por WhatsApp y recibe el brochure completo, fechas de inicio y descuentos vigentes en menos de 5 minutos.</p>
+      <a href="#" class="btn btn-tinta btn-mag" style="padding:18px 38px;font-size:16px" data-ws="Hola INGEA, quiero recibir el brochure y los descuentos vigentes de sus cursos.">Quiero más información <span class="flecha-btn">→</span></a>
+    </div>
+  </section>
+
+  <div id="appFooter"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js"></script>
+  <script src="/js/main.js"></script>
+  <script>
+    (async () => {
+      const [cursos] = await Promise.all([
+        fetch('/api/cursos').then((r) => r.json()),
+        INGEA.montarBase(),
+      ]);
+
+      // logo del sello giratorio
+      document.getElementById('selloLogo').innerHTML = INGEA.logoSVG(56);
+
+      // marquee
+      const temas = ['SEIA', 'Fiscalización OEFA', 'ECA · LMP', 'ISO 14001', 'Residuos sólidos', 'EIA', 'Cierre de minas', 'Monitoreo ambiental', 'PMBOK'];
+      const tira = temas.map((t) => `<span>${t}</span>`).join('');
+      document.getElementById('marqueePista').innerHTML = tira + tira;
+
+      // lista editorial de cursos
+      document.getElementById('listaCursos').innerHTML = cursos.map((c, i) => `
+        <a class="curso-fila" href="/curso/${c.slug}" data-slug="${c.slug}">
+          <span class="cf-num">/${String(i + 1).padStart(2, '0')}</span>
+          <span class="cf-thumb"><img src="${c.imagen}" alt="" loading="lazy" /></span>
+          <span class="cf-nombre"><span class="cf-cat">${c.categoria}</span><h3>${c.nombre}</h3></span>
+          <span class="cf-meta"><span>${c.horas} h académicas · ${c.semanas} semanas</span><span>Inicio: ${c.inicio}</span></span>
+          <span class="cf-precio"><s>${INGEA.soles(c.precio)}</s><b>${INGEA.soles(c.precioProntoPago)}</b></span>
+          <span class="cf-flecha">${INGEA.icono('flechaNE', 20)}</span>
+        </a>`).join('');
+
+      // preview de imagen que sigue al cursor sobre la lista de cursos
+      const prev = document.getElementById('previewCursos');
+      if (!matchMedia('(pointer: coarse)').matches) {
+        prev.innerHTML = cursos.map((c) => `<img data-slug="${c.slug}" src="${c.imagen}" alt="" />`).join('');
+        const lista = document.getElementById('listaCursos');
+        const moverX = window.gsap ? gsap.quickTo(prev, 'left', { duration: 0.55, ease: 'power3' }) : (v) => { prev.style.left = v + 'px'; };
+        const moverY = window.gsap ? gsap.quickTo(prev, 'top', { duration: 0.55, ease: 'power3' }) : (v) => { prev.style.top = v + 'px'; };
+        lista.addEventListener('mousemove', (e) => { moverX(e.clientX + 28); moverY(e.clientY - 110); });
+        lista.querySelectorAll('.curso-fila').forEach((fila) => {
+          fila.addEventListener('mouseenter', () => {
+            prev.querySelectorAll('img').forEach((im) => im.classList.toggle('activa', im.dataset.slug === fila.dataset.slug));
+            prev.classList.add('visible');
+          });
+        });
+        lista.addEventListener('mouseleave', () => prev.classList.remove('visible'));
+      }
+
+      // logo del sello y marca de agua de la mini-tarjeta
+      document.getElementById('mcLogo').innerHTML = INGEA.logoSVG(64, '#F4F1E8');
+      document.getElementById('mcMarca').innerHTML = INGEA.logoSVG(300, '#1C3A26');
+
+      // patrón tipo QR determinista (con cuadros de posicionamiento reales)
+      document.getElementById('mcQr').innerHTML = (() => {
+        const N = 21;
+        const finder = (cx, cy) => `
+          <rect x="${cx}" y="${cy}" width="7" height="7" fill="none" stroke="#1C3A26" stroke-width="1"/>
+          <rect x="${cx + 2}" y="${cy + 2}" width="3" height="3" fill="#1C3A26"/>`;
+        const enFinder = (x, y) =>
+          (x < 8 && y < 8) || (x >= N - 8 && y < 8) || (x < 8 && y >= N - 8);
+        let celdas = '';
+        for (let y = 0; y < N; y++) {
+          for (let x = 0; x < N; x++) {
+            if (enFinder(x, y)) continue;
+            if (y === 6 || x === 6) { if ((x + y) % 2 === 0) celdas += `<rect x="${x}" y="${y}" width="1" height="1" fill="#1C3A26"/>`; continue; }
+            if (((x * 31 + y * 17 + x * y * 7) ^ (x + y)) % 5 < 2) celdas += `<rect x="${x}" y="${y}" width="1" height="1" fill="#1C3A26"/>`;
+          }
+        }
+        return `<svg viewBox="-.5 -.5 ${N + 1} ${N + 1}" shape-rendering="crispEdges">${finder(0, 0)}${finder(N - 7, 0)}${finder(0, N - 7)}${celdas}</svg>`;
+      })();
+
+      // tilt 3D de la tarjeta de certificado
+      const escena = document.getElementById('escenaTilt');
+      const tarjeta = document.getElementById('miniCert');
+      if (!matchMedia('(pointer: coarse)').matches) {
+        escena.addEventListener('mousemove', (e) => {
+          const r = escena.getBoundingClientRect();
+          const rx = ((e.clientY - r.top) / r.height - 0.5) * -10;
+          const ry = ((e.clientX - r.left) / r.width - 0.5) * 14;
+          tarjeta.style.transform = `rotateX(${rx}deg) rotateY(${ry}deg)`;
+        });
+        escena.addEventListener('mouseleave', () => { tarjeta.style.transform = ''; });
+      }
+
+      // galería horizontal con scroll anclado (scrub)
+      const pista = document.getElementById('galeriaPista');
+      if (window.gsap && window.ScrollTrigger && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        const distancia = () => pista.scrollWidth - window.innerWidth;
+        gsap.registerPlugin(ScrollTrigger);
+        gsap.to(pista, {
+          x: () => -distancia(),
+          ease: 'none',
+          scrollTrigger: {
+            trigger: '#campo', start: 'top top', end: () => `+=${distancia()}`,
+            pin: true, scrub: 1, invalidateOnRefresh: true,
+          },
+        });
+        // parallax interno de cada foto durante el desplazamiento
+        pista.querySelectorAll('.gal-item img').forEach((im) => {
+          gsap.fromTo(im, { yPercent: -8 }, {
+            yPercent: 0, ease: 'none',
+            scrollTrigger: { trigger: '#campo', start: 'top top', end: () => `+=${distancia()}`, scrub: 1 },
+          });
+        });
+      } else {
+        pista.parentElement.style.overflowX = 'auto';
+      }
+
+      // enlaces WhatsApp de esta página (los data-ws ya los conecta montarBase)
+      INGEA.animar();
+      INGEA.activarMagneticos();
+    })();
+  </script>
+</body>
+</html>
