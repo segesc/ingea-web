@@ -1,11 +1,11 @@
-// Catálogo de cursos y configuración institucional de INGEA
+﻿// Catálogo de cursos y configuración institucional de INGEA
 // Editar aquí: número de WhatsApp, correo, precios, fechas de inicio, etc.
 
 const CONFIG = {
   instituto: 'INGEA',
   nombreCompleto: 'Instituto de Especialización en Gestión e Ingeniería Ambiental',
-  whatsapp: '51987654321', // sin "+", formato wa.me
-  whatsappDisplay: '+51 987 654 321',
+  whatsapp: '51921588178', // sin "+", formato wa.me
+  whatsappDisplay: '+51 921 588 178',
   email: 'informes@ingea.edu.pe',
   direccion: 'Av. Javier Prado Este 1234, San Isidro — Lima, Perú',
   web: 'www.ingea.edu.pe',
