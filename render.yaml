@@ -3,7 +3,7 @@ services:
     name: ingea
     runtime: node
     plan: free
-    buildCommand: npm install --omit=dev
+    buildCommand: npm install --omit=dev && node tools/fetch-img.js
     startCommand: node server.js
     envVars:
       - key: INGEA_ADMIN_USER
