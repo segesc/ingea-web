@@ -102,7 +102,7 @@ const INGEA = {
         <div class="footer-top">
           <div class="footer-marca">
             <span class="logo-marca claro">${this.logoSVG(46, '#F4F1E8')}</span>
-            <p>${c.nombreCompleto}.<br>${c.convenio}.</p>
+            <p>${c.nombreCompleto}.<br>${c.registro} · ${c.direccion}</p>
           </div>
           <div class="footer-cols">
             <div>

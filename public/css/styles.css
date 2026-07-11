@@ -218,8 +218,10 @@ a { color: inherit; text-decoration: none; }
 .mini-cert .mc-detalle { font: 500 1.3cqw/1.65 var(--f-texto); color: var(--tinta); max-width: 80%; margin-top: 1.8cqw; }
 .mini-cert .mc-detalle b { color: var(--pino); }
 .mini-cert .mc-firmas { margin-top: auto; display: flex; gap: 12cqw; width: 78%; justify-content: center; }
-.mini-cert .mc-firmas i { flex: 1; border-top: .16cqw solid var(--tinta); font: 600 1.05cqw/1.5 var(--f-texto);
-  letter-spacing: .06em; padding-top: .6cqw; font-style: normal; color: var(--tinta); }
+.mini-cert .mc-firmas i { flex: 1; font: 600 1.05cqw/1.5 var(--f-texto);
+  letter-spacing: .06em; font-style: normal; color: var(--tinta); }
+.mini-cert .mc-firmas i svg { display: block; height: 3.4cqw; margin: 0 auto -0.5cqw; }
+.mini-cert .mc-firmas i span { display: block; border-top: .16cqw solid var(--tinta); padding-top: .6cqw; }
 .mini-cert .mc-firmas i small { display: block; font: 600 .95cqw var(--f-texto); color: var(--gris); letter-spacing: .08em; }
 .mini-cert .mc-pie { font: 600 .95cqw var(--f-mono); letter-spacing: .08em; color: var(--gris); margin-top: 1.6cqw; }
 .mini-cert .mc-qr { position: absolute; top: 4.5cqw; right: 4.5cqw; width: 11cqw; text-align: center; }

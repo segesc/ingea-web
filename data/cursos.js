@@ -6,10 +6,12 @@ const CONFIG = {
   nombreCompleto: 'Instituto de Especialización en Gestión e Ingeniería Ambiental',
   whatsapp: '51921588178', // sin "+", formato wa.me
   whatsappDisplay: '+51 921 588 178',
-  email: 'informes@ingea.edu.pe',
-  direccion: 'Av. Javier Prado Este 1234, San Isidro — Lima, Perú',
-  web: 'www.ingea.edu.pe',
-  convenio: 'En convenio con el Colegio de Ingenieros del Perú — CD Lima',
+  email: 'informes@ingeaperu.com',
+  direccion: 'Av. Javier Prado Este 476, Of. 702, San Isidro — Lima, Perú',
+  web: 'ingea.onrender.com',
+  registro: 'RUC 20609431287',
+  gerente: 'Mg. Ing. Ricardo A. Salazar Peña',
+  directora: 'Dra. Mariel Antúnez Rojas',
 };
 
 const CURSOS = [

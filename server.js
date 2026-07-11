@@ -181,7 +181,7 @@ app.get('/api/brochure/:slug', (req, res) => {
   doc.font('Helvetica').fontSize(10).fillColor('#333333')
     .text(`WhatsApp: ${CONFIG.whatsappDisplay}`, M + 18, cy + 34)
     .text(`Correo: ${CONFIG.email}`, M + 18, cy + 50)
-    .text(`Web: ${CONFIG.web}  |  ${CONFIG.convenio}`, M + 18, cy + 66);
+    .text(`Web: ${CONFIG.web}  |  ${CONFIG.registro}`, M + 18, cy + 66);
 
   doc.end();
 });

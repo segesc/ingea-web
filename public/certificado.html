@@ -9,8 +9,8 @@
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M14 8 H50 C74 8 90 25 90 48 C90 72 73 90 48 90 C35 90 24 84 14 73 Z' fill='none' stroke='%231C3A26' stroke-width='9'/%3E%3Ccircle cx='44' cy='37' r='10' fill='%23EFAF3C'/%3E%3Cpath d='M46 96 C44 70 58 46 96 40 C99 70 82 94 50 97 Z' fill='%235F9E4E'/%3E%3C/svg%3E" />
   <style>
     :root {
-      --verde: #1c3a26; --verde-medio: #5f9e4e; --oro: #efaf3c; --oro-claro: #f4c465;
-      --tinta: #10160f; --gris: #5d635a;
+      --verde: #1c3a26; --verde-medio: #5f9e4e; --oro: #c99b2f; --oro-claro: #f4c465;
+      --tinta: #10160f; --gris: #5d635a; --tinta-firma: #24427c;
     }
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { background: #17211a; font-family: 'Inter', sans-serif; min-height: 100vh;
@@ -19,49 +19,60 @@
     .barra-acciones { display: flex; gap: 14px; margin-bottom: 26px; flex-wrap: wrap; justify-content: center; }
     .btn { padding: 12px 24px; border-radius: 999px; border: 0; cursor: pointer;
       font: 600 14px 'Inter', sans-serif; display: inline-flex; gap: 8px; align-items: center; text-decoration: none; }
-    .btn-oro { background: var(--oro); color: var(--tinta); }
+    .btn-oro { background: var(--oro-claro); color: var(--tinta); }
     .btn-claro { background: rgba(255,255,255,.12); color: #fff; border: 1px solid rgba(255,255,255,.25); }
 
     /* ---- hoja A4 horizontal (1123 x 794 px @96dpi) ---- */
     .hoja-envoltura { width: 100%; max-width: 1123px; }
-    .hoja { position: relative; width: 1123px; height: 794px; background: #fff; overflow: hidden;
+    .hoja { position: relative; width: 1123px; height: 794px; background: #fffdf8; overflow: hidden;
       box-shadow: 0 30px 80px rgba(0,0,0,.45); transform-origin: top left; }
+
+    /* marco doble clásico */
+    .marco-ext { position: absolute; inset: 16px; border: 2.5px solid var(--verde); pointer-events: none; }
+    .marco-int { position: absolute; inset: 24px; border: 1px solid var(--oro); pointer-events: none; }
 
     .cinta { position: absolute; pointer-events: none; }
     .marca-agua { position: absolute; left: 200px; top: 170px; width: 560px; height: 560px; opacity: .045; }
 
-    .contenido { position: absolute; inset: 0; padding: 46px 96px 40px 210px; display: flex; flex-direction: column; align-items: center; text-align: center; }
+    .contenido { position: absolute; inset: 0; padding: 44px 96px 62px 210px; display: flex; flex-direction: column; align-items: center; text-align: center; }
 
-    .sello { background: var(--verde); color: #fff; border-radius: 18px; padding: 13px 32px;
+    .sello { background: var(--verde); color: #fff; border-radius: 16px; padding: 12px 30px;
       display: flex; align-items: center; gap: 14px; border: 1.5px solid var(--oro); }
-    .sello-escudo { width: 46px; height: 46px; }
-    .sello b { font: 700 22px 'Space Grotesk', sans-serif; letter-spacing: .06em; display: block; text-align: left; }
+    .sello-escudo { width: 44px; height: 44px; }
+    .sello b { font: 700 21px 'Space Grotesk', sans-serif; letter-spacing: .06em; display: block; text-align: left; }
     .sello small { font: 500 8.5px 'Inter', sans-serif; letter-spacing: .12em; color: #cfdcc9; display: block; text-align: left; text-transform: uppercase; }
 
-    .qr-caja { position: absolute; top: 42px; right: 60px; text-align: center; }
-    .qr-caja img { width: 128px; height: 128px; display: block; border: 6px solid #fff; outline: 2px solid var(--verde); border-radius: 6px; }
-    .qr-caja span { font: 600 9px 'Inter', sans-serif; color: var(--gris); letter-spacing: .06em; display: block; margin-top: 6px; }
+    .qr-caja { position: absolute; top: 44px; right: 62px; text-align: center; }
+    .qr-caja img { width: 118px; height: 118px; display: block; border: 5px solid #fff; outline: 2px solid var(--verde); border-radius: 6px; }
+    .qr-caja span { font: 600 8.5px 'Inter', sans-serif; color: var(--gris); letter-spacing: .06em; display: block; margin-top: 6px; }
 
-    .tipo-curso { margin-top: 30px; font: 700 15px 'Space Grotesk', sans-serif; letter-spacing: .3em; color: var(--tinta); }
-    h1.certificado { font: 700 64px 'Space Grotesk', sans-serif; color: var(--verde-medio); letter-spacing: .04em; line-height: 1.05; margin-top: 2px; }
-    .otorgado { margin-top: 14px; font: 600 13px 'Inter', sans-serif; color: var(--gris); }
+    .tipo-curso { margin-top: 26px; font: 700 14px 'Space Grotesk', sans-serif; letter-spacing: .32em; color: var(--tinta); }
+    .tipo-curso::before, .tipo-curso::after { content: ' — '; color: var(--oro); }
+    h1.certificado { font: 700 60px 'Space Grotesk', sans-serif; color: var(--verde-medio); letter-spacing: .05em; line-height: 1.02; margin-top: 2px; }
+    .otorgado { margin-top: 12px; font: 600 13px 'Inter', sans-serif; color: var(--gris); }
     .nombre-alumno { font: 600 34px 'Fraunces', serif; font-style: italic; color: var(--tinta); margin-top: 4px;
       border-bottom: 2.5px solid var(--oro); padding: 0 34px 8px; }
-    .doc-alumno { margin-top: 12px; font: 600 13px 'Inter', sans-serif; color: var(--tinta); }
+    .doc-alumno { margin-top: 11px; font: 600 13px 'Inter', sans-serif; color: var(--tinta); }
     .por-haber { margin-top: 4px; font: 600 12.5px 'Inter', sans-serif; color: var(--gris); }
-    .nombre-curso { font: 600 27px 'Space Grotesk', sans-serif; color: var(--verde); margin-top: 10px; max-width: 720px; line-height: 1.25; }
-    .detalle { margin-top: 14px; font: 500 12.5px/1.7 'Inter', sans-serif; color: var(--tinta); max-width: 690px; }
+    .nombre-curso { font: 600 26px 'Space Grotesk', sans-serif; color: var(--verde); margin-top: 9px; max-width: 720px; line-height: 1.22; }
+    .detalle { margin-top: 12px; font: 500 12.5px/1.65 'Inter', sans-serif; color: var(--tinta); max-width: 680px; }
     .detalle b { color: var(--verde); }
+    .lugar-fecha { margin-top: 8px; font: 500 12px 'Inter', sans-serif; color: var(--gris); font-style: italic; }
 
-    .firmas { margin-top: auto; display: flex; gap: 150px; justify-content: center; width: 100%; padding-bottom: 8px; }
-    .firma { text-align: center; min-width: 230px; }
-    .firma .linea { border-top: 2px solid var(--tinta); margin-bottom: 8px; }
-    .firma b { font: 700 12.5px 'Inter', sans-serif; display: block; }
-    .firma span { font: 600 11px 'Inter', sans-serif; color: var(--gris); letter-spacing: .04em; }
+    /* firmas con rúbrica manuscrita + medalla central */
+    .firmas { margin-top: auto; display: flex; gap: 190px; justify-content: center; width: 100%; padding-bottom: 6px; position: relative; }
+    .firma { text-align: center; min-width: 250px; position: relative; }
+    .firma svg.rubrica { display: block; margin: 0 auto -14px; height: 58px; }
+    .firma .linea { border-top: 1.5px solid var(--tinta); margin-bottom: 7px; }
+    .firma b { font: 700 13px 'Inter', sans-serif; display: block; color: var(--tinta); }
+    .firma span { font: 600 10.5px 'Inter', sans-serif; color: var(--gris); letter-spacing: .08em; text-transform: uppercase; }
 
-    .codigo-pie { position: absolute; bottom: 18px; left: 210px; font: 600 10px 'Inter', sans-serif; color: var(--gris); letter-spacing: .05em; }
-    .web-lateral { position: absolute; right: 20px; bottom: 130px; font: 700 11px 'Space Grotesk', sans-serif; color: var(--verde);
-      letter-spacing: .14em; writing-mode: vertical-rl; }
+    .medalla { position: absolute; left: 50%; bottom: 4px; transform: translateX(-50%); width: 108px; pointer-events: none; }
+
+    .codigo-pie { position: absolute; bottom: 32px; left: 210px; right: 96px; text-align: center; white-space: nowrap;
+      font: 600 9.5px 'Inter', sans-serif; color: var(--gris); letter-spacing: .05em; }
+    .web-lateral { position: absolute; right: 34px; bottom: 150px; font: 700 10.5px 'Space Grotesk', sans-serif; color: var(--verde);
+      letter-spacing: .14em; writing-mode: vertical-rl; text-transform: uppercase; }
 
     .anulado-banda { position: absolute; inset: 0; display: none; place-items: center; z-index: 50; }
     .anulado-banda span { font: 700 90px 'Space Grotesk', sans-serif; color: rgba(179, 64, 47, .28); transform: rotate(-22deg);
@@ -86,6 +97,9 @@
 
   <div class="hoja-envoltura" id="envoltura">
     <div class="hoja" id="hoja" style="display:none">
+      <div class="marco-ext"></div>
+      <div class="marco-int"></div>
+
       <!-- cintas decorativas: chevrones de fondo + cinta pino/ámbar -->
       <svg class="cinta" style="left:0;top:0" width="240" height="794" viewBox="0 0 240 794">
         <path d="M0 0 L150 0 L60 300 L170 794 L0 794 Z" fill="#f0efe8"/>
@@ -97,7 +111,7 @@
             <stop offset="0" stop-color="#2c5636"/><stop offset=".5" stop-color="#5f9e4e"/><stop offset="1" stop-color="#1c3a26"/>
           </linearGradient>
           <linearGradient id="gradOro" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0" stop-color="#f4c465"/><stop offset=".55" stop-color="#efaf3c"/><stop offset="1" stop-color="#f4c465"/>
+            <stop offset="0" stop-color="#f4c465"/><stop offset=".55" stop-color="#c99b2f"/><stop offset="1" stop-color="#f4c465"/>
           </linearGradient>
         </defs>
       </svg>
@@ -147,15 +161,47 @@
         <div class="por-haber">Por haber aprobado satisfactoriamente el curso de:</div>
         <div class="nombre-curso" id="cCurso">—</div>
         <p class="detalle" id="cDetalle"></p>
+        <div class="lugar-fecha" id="cLugarFecha"></div>
 
         <div class="firmas">
-          <div class="firma"><div class="linea"></div><b>Gerente General</b><span>INGEA</span></div>
-          <div class="firma"><div class="linea"></div><b>Director Académico</b><span>INGEA</span></div>
+          <div class="firma">
+            <svg class="rubrica" viewBox="0 0 140 60" width="140" height="60" fill="none" stroke="#24427c" stroke-width="2.1" stroke-linecap="round">
+              <path d="M14 40 C22 16 32 10 34 20 C36 30 26 42 40 34 C52 27 50 12 60 18 C66 22 62 34 72 28 C80 23 84 30 92 24 C98 20 104 26 112 22"/>
+              <path d="M24 47 C50 41 84 45 122 36" opacity=".85"/>
+            </svg>
+            <div class="linea"></div>
+            <b id="firmaGerente">Gerente General</b>
+            <span>Gerente General · INGEA</span>
+          </div>
+          <svg class="medalla" viewBox="0 0 120 150">
+            <path d="M42 96 L30 146 L52 132 L60 148 L68 132 L90 146 L78 96 Z" fill="url(#medCinta)"/>
+            <circle cx="60" cy="60" r="46" fill="url(#medOro)" stroke="#a87f1f" stroke-width="2"/>
+            <circle cx="60" cy="60" r="46" fill="none" stroke="#fff3d6" stroke-width="3" stroke-dasharray="3 4"/>
+            <circle cx="60" cy="60" r="34" fill="none" stroke="#a87f1f" stroke-width="1.5"/>
+            <path d="M42 60 L54 72 L80 46" fill="none" stroke="#1c3a26" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+            <defs>
+              <linearGradient id="medOro" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#f4c465"/><stop offset=".5" stop-color="#dfae45"/><stop offset="1" stop-color="#c99b2f"/>
+              </linearGradient>
+              <linearGradient id="medCinta" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#1c3a26"/><stop offset="1" stop-color="#2c5636"/>
+              </linearGradient>
+            </defs>
+          </svg>
+          <div class="firma">
+            <svg class="rubrica" viewBox="0 0 140 60" width="140" height="60" fill="none" stroke="#24427c" stroke-width="2.1" stroke-linecap="round">
+              <path d="M18 42 C24 18 34 12 32 24 C30 34 44 10 52 20 C58 27 48 38 62 32 C74 26 76 16 86 22 C92 26 98 18 108 24 C112 27 118 24 124 26"/>
+              <path d="M16 48 C44 52 78 42 118 46" opacity=".85"/>
+            </svg>
+            <div class="linea"></div>
+            <b id="firmaDirectora">Directora Académica</b>
+            <span>Directora Académica · INGEA</span>
+          </div>
         </div>
       </div>
 
       <div class="codigo-pie" id="cPie"></div>
-      <div class="web-lateral">WWW.INGEA.EDU.PE</div>
+      <div class="web-lateral" id="webLateral"></div>
       <div class="anulado-banda" id="bandaAnulado"><span>ANULADO</span></div>
     </div>
   </div>
@@ -164,7 +210,10 @@
   <script>
     (async () => {
       const codigo = decodeURIComponent(location.pathname.split('/').pop()).toUpperCase();
-      const data = await fetch(`/api/verificar/${encodeURIComponent(codigo)}`).then((r) => r.json());
+      const [data, config] = await Promise.all([
+        fetch(`/api/verificar/${encodeURIComponent(codigo)}`).then((r) => r.json()),
+        fetch('/api/config').then((r) => r.json()),
+      ]);
 
       if (!data.certificado) {
         document.getElementById('msgError').style.display = 'block';
@@ -184,10 +233,15 @@
       document.getElementById('cDocumento').textContent = `Documento de identidad: ${c.tipoDoc} N.° ${c.documento}`;
       document.getElementById('cCurso').textContent = c.curso;
       document.getElementById('cDetalle').innerHTML =
-        `Desarrollado por <b>INGEA — Instituto de Especialización en Gestión e Ingeniería Ambiental</b>, en convenio con el Colegio de Ingenieros del Perú — CD Lima, con una duración de <b>${c.horas} horas académicas</b>, del <b>${fmt(c.fechaInicio)}</b> al <b>${fmt(c.fechaFin)}</b>.`;
+        `Desarrollado por <b>INGEA — Instituto de Especialización en Gestión e Ingeniería Ambiental</b>, con una duración de <b>${c.horas} horas académicas</b>, del <b>${fmt(c.fechaInicio)}</b> al <b>${fmt(c.fechaFin)}</b>.`;
+      document.getElementById('cLugarFecha').textContent = `Otorgado en Lima, Perú, el ${fmt(c.fechaEmision)}`;
+      document.getElementById('firmaGerente').textContent = config.gerente || 'Gerente General';
+      document.getElementById('firmaDirectora').textContent = config.directora || 'Directora Académica';
       document.getElementById('qrImg').src = `/api/qr/${c.codigo}`;
       document.getElementById('qrCodigo').textContent = c.codigo;
-      document.getElementById('cPie').textContent = `Código de verificación: ${c.codigo}  ·  Emitido el ${fmt(c.fechaEmision)}  ·  Verifícalo en ${location.origin}/verificar`;
+      document.getElementById('cPie').textContent =
+        `Código de verificación: ${c.codigo}  ·  Verifícalo en ${config.web || location.host}/verificar  ·  ${config.registro || ''}`;
+      document.getElementById('webLateral').textContent = (config.web || location.host).toUpperCase();
       if (c.estado === 'anulado') document.getElementById('bandaAnulado').style.display = 'grid';
 
       // escalar la hoja para que quepa en pantalla
