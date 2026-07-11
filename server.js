@@ -3,15 +3,14 @@
 
 const express = require('express');
 const path = require('path');
-const fs = require('fs');
 const crypto = require('crypto');
 const QRCode = require('qrcode');
 const PDFDocument = require('pdfkit');
 const { CURSOS, CONFIG } = require('./data/cursos');
+const almacen = require('./data/almacen');
 
 const app = express();
 const PORT = process.env.PORT || 4173;
-const DATA_FILE = path.join(__dirname, 'data', 'certificados.json');
 
 // Credenciales del administrador (cambiar en producción vía variables de entorno)
 const ADMIN_USER = process.env.INGEA_ADMIN_USER || 'admin';
@@ -21,17 +20,7 @@ const sessions = new Map(); // token -> { user, creado }
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// ---------- persistencia de certificados ----------
-function loadCerts() {
-  try {
-    return JSON.parse(fs.readFileSync(DATA_FILE, 'utf8'));
-  } catch {
-    return [];
-  }
-}
-function saveCerts(certs) {
-  fs.writeFileSync(DATA_FILE, JSON.stringify(certs, null, 2), 'utf8');
-}
+// ---------- persistencia de certificados (ver data/almacen.js) ----------
 function genCodigo(certs) {
   const year = new Date().getFullYear();
   let code;
@@ -86,7 +75,7 @@ app.get('/api/cursos/:slug', (req, res) => {
 // Verificación pública de certificados (trazabilidad del QR)
 app.get('/api/verificar/:codigo', (req, res) => {
   const codigo = req.params.codigo.trim().toUpperCase();
-  const cert = loadCerts().find((c) => c.codigo === codigo);
+  const cert = almacen.listar().find((c) => c.codigo === codigo);
   if (!cert) return res.json({ valido: false });
   res.json({
     valido: cert.estado === 'vigente',
@@ -199,16 +188,16 @@ app.get('/api/brochure/:slug', (req, res) => {
 
 // ---------- API admin: certificados ----------
 app.get('/api/admin/certificados', requireAdmin, (req, res) => {
-  res.json(loadCerts().sort((a, b) => b.fechaEmision.localeCompare(a.fechaEmision)));
+  res.json([...almacen.listar()].sort((a, b) => b.fechaEmision.localeCompare(a.fechaEmision)));
 });
 
-app.post('/api/admin/certificados', requireAdmin, (req, res) => {
+app.post('/api/admin/certificados', requireAdmin, async (req, res) => {
   const { nombre, tipoDoc, documento, cursoSlug, cursoNombre, horas, fechaInicio, fechaFin } = req.body || {};
   if (!nombre || !documento || !fechaInicio || !fechaFin || (!cursoSlug && !cursoNombre)) {
     return res.status(400).json({ error: 'Faltan campos obligatorios' });
   }
   const curso = CURSOS.find((c) => c.slug === cursoSlug);
-  const certs = loadCerts();
+  const certs = almacen.listar();
   const cert = {
     codigo: genCodigo(certs),
     nombre: String(nombre).trim(),
@@ -223,16 +212,28 @@ app.post('/api/admin/certificados', requireAdmin, (req, res) => {
     estado: 'vigente',
   };
   certs.push(cert);
-  saveCerts(certs);
+  try {
+    await almacen.guardar(`Emite ${cert.codigo} — ${cert.cursoNombre}`);
+  } catch (e) {
+    certs.pop(); // sin persistencia no hay emisión válida
+    console.error(e.message);
+    return res.status(500).json({ error: 'No se pudo guardar el certificado en el registro. Reintenta.' });
+  }
   res.status(201).json(cert);
 });
 
-app.post('/api/admin/certificados/:codigo/anular', requireAdmin, (req, res) => {
-  const certs = loadCerts();
-  const cert = certs.find((c) => c.codigo === req.params.codigo.toUpperCase());
+app.post('/api/admin/certificados/:codigo/anular', requireAdmin, async (req, res) => {
+  const cert = almacen.listar().find((c) => c.codigo === req.params.codigo.toUpperCase());
   if (!cert) return res.status(404).json({ error: 'Certificado no encontrado' });
+  const anterior = cert.estado;
   cert.estado = cert.estado === 'vigente' ? 'anulado' : 'vigente';
-  saveCerts(certs);
+  try {
+    await almacen.guardar(`${cert.estado === 'anulado' ? 'Anula' : 'Reactiva'} ${cert.codigo}`);
+  } catch (e) {
+    cert.estado = anterior;
+    console.error(e.message);
+    return res.status(500).json({ error: 'No se pudo guardar el cambio de estado. Reintenta.' });
+  }
   res.json(cert);
 });
 
@@ -244,6 +245,14 @@ app.get('/verificar/:codigo', page('verificar.html'));
 app.get('/admin', page('admin.html'));
 app.get('/certificado/:codigo', page('certificado.html'));
 
-app.listen(PORT, () => {
-  console.log(`INGEA corriendo en http://localhost:${PORT}`);
-});
+almacen
+  .iniciar()
+  .then(() => {
+    app.listen(PORT, () => {
+      console.log(`INGEA corriendo en http://localhost:${PORT}`);
+    });
+  })
+  .catch((e) => {
+    console.error('No se pudo iniciar el almacén de certificados:', e.message);
+    process.exit(1);
+  });
