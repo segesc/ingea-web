@@ -2,7 +2,9 @@
 // Web pública + API + panel de administración de certificados con QR de trazabilidad.
 
 const express = require('express');
+const compression = require('compression');
 const path = require('path');
+const fs = require('fs');
 const crypto = require('crypto');
 const QRCode = require('qrcode');
 const PDFDocument = require('pdfkit');
@@ -20,6 +22,7 @@ const SESION_MS = 8 * 60 * 60 * 1000; // 8 horas
 const sessions = new Map(); // token -> { user, creado }
 const intentosLogin = new Map(); // ip -> { fallos, bloqueadoHasta }
 
+app.use(compression());
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -255,7 +258,22 @@ app.post('/api/admin/certificados/:codigo/anular', requireAdmin, async (req, res
 
 // ---------- páginas ----------
 const page = (file) => (req, res) => res.sendFile(path.join(__dirname, 'public', file));
-app.get('/curso/:slug', page('curso.html'));
+const cursoHtmlBase = fs.readFileSync(path.join(__dirname, 'public', 'curso.html'), 'utf8');
+
+app.get('/curso/:slug', (req, res) => {
+  const curso = CURSOS.find((c) => c.slug === req.params.slug);
+  if (!curso) return res.sendFile(path.join(__dirname, 'public', 'curso.html'));
+  const imagenAbsoluta = `${baseUrl(req)}${curso.imagen}`;
+  const html = cursoHtmlBase
+    .replace('<title>Curso - INGEA</title>', `<title>${curso.nombre} - INGEA</title>`)
+    .replace('content="Curso de especialización - INGEA"', `content="${curso.nombre} - INGEA"`)
+    .replace(
+      'content="Cursos de especialización en gestión ambiental con certificación verificable con QR."',
+      `content="${curso.resumen}"`
+    )
+    .replace('content="https://ingea.onrender.com/img/hero-panorama.jpg"', `content="${imagenAbsoluta}"`);
+  res.send(html);
+});
 app.get('/verificar', page('verificar.html'));
 app.get('/verificar/:codigo', page('verificar.html'));
 app.get('/admin', page('admin.html'));
