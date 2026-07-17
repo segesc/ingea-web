@@ -10,12 +10,15 @@ const { CURSOS, CONFIG } = require('./data/cursos');
 const almacen = require('./data/almacen');
 
 const app = express();
+app.set('trust proxy', 1); // Render está detrás de un proxy: sin esto, req.protocol siempre da "http" y el QR queda mal
 const PORT = process.env.PORT || 4173;
 
 // Credenciales del administrador (cambiar en producción vía variables de entorno)
 const ADMIN_USER = process.env.INGEA_ADMIN_USER || 'admin';
 const ADMIN_PASS = process.env.INGEA_ADMIN_PASS || 'ingea2026';
+const SESION_MS = 8 * 60 * 60 * 1000; // 8 horas
 const sessions = new Map(); // token -> { user, creado }
+const intentosLogin = new Map(); // ip -> { fallos, bloqueadoHasta }
 
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
@@ -36,17 +39,30 @@ function baseUrl(req) {
 // ---------- auth ----------
 function requireAdmin(req, res, next) {
   const token = req.get('x-admin-token');
-  if (token && sessions.has(token)) return next();
+  const s = token && sessions.get(token);
+  if (s && Date.now() - s.creado < SESION_MS) return next();
+  if (s) sessions.delete(token); // sesión vencida
   res.status(401).json({ error: 'No autorizado' });
 }
 
 app.post('/api/admin/login', (req, res) => {
+  const ip = req.ip;
+  const intento = intentosLogin.get(ip);
+  if (intento && intento.bloqueadoHasta > Date.now()) {
+    return res.status(429).json({ error: 'Demasiados intentos. Espera unos minutos.' });
+  }
   const { usuario, clave } = req.body || {};
   if (usuario === ADMIN_USER && clave === ADMIN_PASS) {
+    intentosLogin.delete(ip);
     const token = crypto.randomBytes(24).toString('hex');
     sessions.set(token, { user: usuario, creado: Date.now() });
     return res.json({ token });
   }
+  const fallos = (intento?.fallos || 0) + 1;
+  intentosLogin.set(ip, {
+    fallos,
+    bloqueadoHasta: fallos >= 5 ? Date.now() + 5 * 60 * 1000 : 0,
+  });
   res.status(401).json({ error: 'Usuario o clave incorrectos' });
 });
 
@@ -244,6 +260,23 @@ app.get('/verificar', page('verificar.html'));
 app.get('/verificar/:codigo', page('verificar.html'));
 app.get('/admin', page('admin.html'));
 app.get('/certificado/:codigo', page('certificado.html'));
+
+app.get('/sitemap.xml', (req, res) => {
+  const base = baseUrl(req);
+  const urls = [
+    base,
+    `${base}/verificar`,
+    ...CURSOS.map((c) => `${base}/curso/${c.slug}`),
+  ];
+  res.type('application/xml').send(
+    `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n` +
+      urls.map((u) => `  <url><loc>${u}</loc></url>`).join('\n') +
+      `\n</urlset>`
+  );
+});
+
+// cualquier ruta no encontrada vuelve al inicio
+app.use((req, res) => res.redirect('/'));
 
 almacen
   .iniciar()
