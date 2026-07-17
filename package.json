@@ -1,7 +1,7 @@
 {
   "name": "ingea",
   "version": "1.0.0",
-  "description": "INGEA — plataforma de cursos de especialización ambiental con certificados QR verificables",
+  "description": "INGEA - plataforma de cursos de especialización ambiental con certificados QR verificables",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"

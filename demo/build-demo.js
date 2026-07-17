@@ -115,11 +115,11 @@ window.__CURSOS = ${JSON.stringify(cursosDemo)};
         <p class="desc">\${c.descripcion}</p>
         <h4>Plan de estudios</h4>
         <div class="acordeon">\${c.modulos.map((m, i) => \`
-          <details class="modulo" \${i === 0 ? 'open' : ''}><summary>Módulo \${i + 1} — \${m.titulo}</summary>
+          <details class="modulo" \${i === 0 ? 'open' : ''}><summary>Módulo \${i + 1} - \${m.titulo}</summary>
           <ul>\${m.temas.map((t) => '<li>' + t + '</li>').join('')}</ul></details>\`).join('')}
         </div>
         <h4>Docente</h4>
-        <p class="desc"><b>\${c.docente.nombre}</b> — \${c.docente.titulo}</p>
+        <p class="desc"><b>\${c.docente.nombre}</b> - \${c.docente.titulo}</p>
         <div class="modal-acciones">
           <a class="btn btn-ws" href="\${ws}" target="_blank" rel="noopener">\${INGEA.svgWhatsApp(18)} Inscribirme por WhatsApp</a>
           <a class="btn btn-borde" href="\${ws}" target="_blank" rel="noopener">Pedir brochure PDF</a>
@@ -158,7 +158,7 @@ window.__CURSOS = ${JSON.stringify(cursosDemo)};
 `;
 
 // ---- ensamblado (fragmento: el Artifact envuelve con doctype/head/body) ----
-const salida = `<title>INGEA — Especialización en Ingeniería Ambiental</title>
+const salida = `<title>INGEA - Especialización en Ingeniería Ambiental</title>
 <style>
 ${fontCss}
 ${css}

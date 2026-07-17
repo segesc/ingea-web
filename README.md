@@ -1,4 +1,4 @@
-# INGEA — Plataforma de cursos de especialización ambiental
+# INGEA - Plataforma de cursos de especialización ambiental
 
 Web pública + panel administrativo con generación de certificados con QR de trazabilidad.
 
@@ -23,17 +23,17 @@ Abre `http://localhost:4173` (puerto configurable con la variable `PORT`).
 
 ## Acceso administrador
 
-- Usuario: `admin` — Clave: `ingea2026`
+- Usuario: `admin` - Clave: `ingea2026`
 - Cambiar en producción con variables de entorno `INGEA_ADMIN_USER` / `INGEA_ADMIN_PASS`.
 
 El panel permite: generar certificados (código único `INGEA-AAAA-XXXXXX` + QR), buscar, anular/reactivar, abrir el certificado imprimible y la verificación pública.
 
 ## Personalización
 
-- **`data/cursos.js`** — catálogo de cursos, precios, fechas, docentes **y la configuración institucional** (número de WhatsApp, correo, dirección). El número actual `51987654321` es un placeholder: cámbialo por el real.
-- **`data/certificados.json`** — registro persistente de certificados emitidos (no editar a mano salvo necesidad).
-- **`public/css/styles.css`** — paleta y estilos (hueso `#F4F1E8`, pino `#1C3A26`, hoja `#5F9E4E`, ámbar `#EFAF3C`).
-- **`public/img/`** — fotografías (descargadas de Unsplash, licencia libre). Reemplázalas por fotos propias manteniendo los nombres, o cambia las rutas `imagen` en `data/cursos.js`.
+- **`data/cursos.js`** - catálogo de cursos, precios, fechas, docentes **y la configuración institucional** (número de WhatsApp, correo, dirección). El número actual `51987654321` es un placeholder: cámbialo por el real.
+- **`data/certificados.json`** - registro persistente de certificados emitidos (no editar a mano salvo necesidad).
+- **`public/css/styles.css`** - paleta y estilos (hueso `#F4F1E8`, pino `#1C3A26`, hoja `#5F9E4E`, ámbar `#EFAF3C`).
+- **`public/img/`** - fotografías (descargadas de Unsplash, licencia libre). Reemplázalas por fotos propias manteniendo los nombres, o cambia las rutas `imagen` en `data/cursos.js`.
 - Los brochures PDF se generan al vuelo con `pdfkit` desde el catálogo; no hay archivos que mantener.
 
 ## Arquitectura

@@ -1,4 +1,4 @@
-// INGEA — utilidades compartidas (config, logo, nav, WhatsApp, animaciones)
+// INGEA - utilidades compartidas (config, logo, nav, WhatsApp, animaciones)
 
 const INGEA = {
   config: null,
@@ -135,7 +135,7 @@ const INGEA = {
         </div>
         <div class="footer-gigante" aria-hidden="true">INGEA</div>
         <div class="footer-legal">
-          <span>© ${new Date().getFullYear()} ${c.instituto} — Todos los derechos reservados.</span>
+          <span>© ${new Date().getFullYear()} ${c.instituto} - Todos los derechos reservados.</span>
           <a href="/admin">Acceso administrativo</a>
         </div>
       </div>

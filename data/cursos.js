@@ -7,7 +7,7 @@ const CONFIG = {
   whatsapp: '51921588178', // sin "+", formato wa.me
   whatsappDisplay: '+51 921 588 178',
   email: 'informes@ingeaperu.com',
-  direccion: 'Av. Javier Prado Este 476, Of. 702, San Isidro — Lima, Perú',
+  direccion: 'Av. Javier Prado Este 476, Of. 702, San Isidro - Lima, Perú',
   web: 'ingea.onrender.com',
   registro: 'RUC 20609431287',
   gerente: 'Mg. Ing. Ricardo A. Salazar Peña',
@@ -65,7 +65,7 @@ const CURSOS = [
   },
   {
     slug: 'fiscalizacion-ambiental-oefa',
-    nombre: 'Supervisión y Fiscalización Ambiental — Marco OEFA',
+    nombre: 'Supervisión y Fiscalización Ambiental - Marco OEFA',
     categoria: 'Fiscalización',
     icono: 'shield',
     color: '#8A3324',
@@ -130,14 +130,14 @@ const CURSOS = [
     dirigido: ['Responsables de residuos en industria y municipios', 'Personal de EO-RS', 'Consultores ambientales', 'Fiscalizadores municipales y regionales'],
     modulos: [
       { titulo: 'Marco normativo', temas: ['D.L. 1278 y D.S. 014-2017-MINAM', 'Clasificación de residuos', 'Obligaciones del generador', 'Responsabilidad extendida del productor'] },
-      { titulo: 'Manejo de residuos no municipales', temas: ['Plan de minimización y manejo', 'Almacenamiento y transporte', 'Manifiesto de residuos peligrosos', 'Declaración anual — SIGERSOL'] },
+      { titulo: 'Manejo de residuos no municipales', temas: ['Plan de minimización y manejo', 'Almacenamiento y transporte', 'Manifiesto de residuos peligrosos', 'Declaración anual - SIGERSOL'] },
       { titulo: 'Gestión municipal y valorización', temas: ['PIGARS y planes distritales', 'Segregación en la fuente', 'Valorización material y energética', 'Rellenos sanitarios y celdas'] },
       { titulo: 'Economía circular y taller', temas: ['Modelos de economía circular', 'Indicadores de gestión', 'Fiscalización en residuos', 'Taller: plan de manejo completo'] },
     ],
   },
   {
     slug: 'iso-14001-sga',
-    nombre: 'Sistemas de Gestión Ambiental ISO 14001:2015 — Implementación y Auditoría',
+    nombre: 'Sistemas de Gestión Ambiental ISO 14001:2015 - Implementación y Auditoría',
     categoria: 'Sistemas de Gestión',
     icono: 'badge',
     color: '#6B4E9B',

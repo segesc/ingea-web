@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Certificado — INGEA</title>
+  <title>Certificado - INGEA</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M14 8 H50 C74 8 90 25 90 48 C90 72 73 90 48 90 C35 90 24 84 14 73 Z' fill='none' stroke='%231C3A26' stroke-width='9'/%3E%3Ccircle cx='44' cy='37' r='10' fill='%23EFAF3C'/%3E%3Cpath d='M46 96 C44 70 58 46 96 40 C99 70 82 94 50 97 Z' fill='%235F9E4E'/%3E%3C/svg%3E" />
@@ -47,7 +47,7 @@
     .qr-caja span { font: 600 8.5px 'Inter', sans-serif; color: var(--gris); letter-spacing: .06em; display: block; margin-top: 6px; }
 
     .tipo-curso { margin-top: 26px; font: 700 14px 'Space Grotesk', sans-serif; letter-spacing: .32em; color: var(--tinta); }
-    .tipo-curso::before, .tipo-curso::after { content: ' — '; color: var(--oro); }
+    .tipo-curso::before, .tipo-curso::after { content: ' - '; color: var(--oro); }
     h1.certificado { font: 700 60px 'Space Grotesk', sans-serif; color: var(--verde-medio); letter-spacing: .05em; line-height: 1.02; margin-top: 2px; }
     .otorgado { margin-top: 12px; font: 600 13px 'Inter', sans-serif; color: var(--gris); }
     .nombre-alumno { font: 600 34px 'Fraunces', serif; font-style: italic; color: var(--tinta); margin-top: 4px;
@@ -156,10 +156,10 @@
         <div class="tipo-curso">CURSO DE ESPECIALIZACIÓN</div>
         <h1 class="certificado">CERTIFICADO</h1>
         <div class="otorgado">Otorgado a:</div>
-        <div class="nombre-alumno" id="cNombre">—</div>
-        <div class="doc-alumno" id="cDocumento">—</div>
+        <div class="nombre-alumno" id="cNombre">-</div>
+        <div class="doc-alumno" id="cDocumento">-</div>
         <div class="por-haber">Por haber aprobado satisfactoriamente el curso de:</div>
-        <div class="nombre-curso" id="cCurso">—</div>
+        <div class="nombre-curso" id="cCurso">-</div>
         <p class="detalle" id="cDetalle"></p>
         <div class="lugar-fecha" id="cLugarFecha"></div>
 
@@ -227,13 +227,13 @@
         return `${Number(d)} de ${meses[Number(m) - 1]} de ${a}`;
       };
 
-      document.title = `Certificado ${c.codigo} — ${c.nombre}`;
+      document.title = `Certificado ${c.codigo} - ${c.nombre}`;
       document.getElementById('hoja').style.display = 'block';
       document.getElementById('cNombre').textContent = c.nombre;
       document.getElementById('cDocumento').textContent = `Documento de identidad: ${c.tipoDoc} N.° ${c.documento}`;
       document.getElementById('cCurso').textContent = c.curso;
       document.getElementById('cDetalle').innerHTML =
-        `Desarrollado por <b>INGEA — Instituto de Especialización en Gestión e Ingeniería Ambiental</b>, con una duración de <b>${c.horas} horas académicas</b>, del <b>${fmt(c.fechaInicio)}</b> al <b>${fmt(c.fechaFin)}</b>.`;
+        `Desarrollado por <b>INGEA - Instituto de Especialización en Gestión e Ingeniería Ambiental</b>, con una duración de <b>${c.horas} horas académicas</b>, del <b>${fmt(c.fechaInicio)}</b> al <b>${fmt(c.fechaFin)}</b>.`;
       document.getElementById('cLugarFecha').textContent = `Otorgado en Lima, Perú, el ${fmt(c.fechaEmision)}`;
       document.getElementById('firmaGerente').textContent = config.gerente || 'Gerente General';
       document.getElementById('firmaDirectora').textContent = config.directora || 'Directora Académica';

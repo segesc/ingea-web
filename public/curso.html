@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Curso — INGEA</title>
+  <title>Curso - INGEA</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/css/styles.css" />
@@ -59,7 +59,7 @@
 
     <aside class="ficha-lateral" id="fichaLateral">
       <div class="ficha-cab" id="fichaCab">
-        <small>Inversión — pronto pago</small>
+        <small>Inversión - pronto pago</small>
         <div class="ficha-precio"><b id="fichaPrecioPP"></b><s id="fichaPrecio"></s></div>
       </div>
       <div class="ficha-cuerpo">
@@ -94,7 +94,7 @@
         return;
       }
 
-      document.title = `${curso.nombre} — INGEA`;
+      document.title = `${curso.nombre} - INGEA`;
       document.getElementById('cursoHero').style.background =
         `linear-gradient(100deg, rgba(13,17,11,.94) 25%, rgba(20,30,20,.62)), url('${curso.imagen}') center 35%/cover no-repeat`;
       document.getElementById('marcaFondo').innerHTML = INGEA.logoSVG(420, '#F4F1E8');
@@ -109,7 +109,7 @@
       document.getElementById('cursoModulos').innerHTML = curso.modulos
         .map((m, i) => `
           <details class="modulo" ${i === 0 ? 'open' : ''}>
-            <summary>Módulo ${i + 1} — ${m.titulo}</summary>
+            <summary>Módulo ${i + 1} - ${m.titulo}</summary>
             <ul>${m.temas.map((t) => `<li>${t}</li>`).join('')}</ul>
           </details>`).join('');
 

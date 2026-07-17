@@ -1,4 +1,4 @@
-// INGEA — servidor principal
+// INGEA - servidor principal
 // Web pública + API + panel de administración de certificados con QR de trazabilidad.
 
 const express = require('express');
@@ -94,7 +94,7 @@ app.get('/api/verificar/:codigo', (req, res) => {
   });
 });
 
-// QR del certificado — apunta a la página pública de verificación
+// QR del certificado - apunta a la página pública de verificación
 app.get('/api/qr/:codigo', async (req, res) => {
   const codigo = req.params.codigo.trim().toUpperCase();
   const url = `${baseUrl(req)}/verificar/${codigo}`;
@@ -138,10 +138,10 @@ app.get('/api/brochure/:slug', (req, res) => {
   y += 20;
   const ficha = [
     ['Inicio', curso.inicio],
-    ['Duración', `${curso.semanas} semanas — ${curso.horas} horas académicas`],
+    ['Duración', `${curso.semanas} semanas - ${curso.horas} horas académicas`],
     ['Modalidad', curso.modalidad],
     ['Inversión', `S/ ${curso.precio}  (pronto pago: S/ ${curso.precioProntoPago})`],
-    ['Docente', `${curso.docente.nombre} — ${curso.docente.titulo}`],
+    ['Docente', `${curso.docente.nombre} - ${curso.docente.titulo}`],
     ['Certificación', `Certificado por ${curso.horas} horas con código QR de verificación en línea`],
   ];
   doc.fontSize(10);
@@ -213,7 +213,7 @@ app.post('/api/admin/certificados', requireAdmin, async (req, res) => {
   };
   certs.push(cert);
   try {
-    await almacen.guardar(`Emite ${cert.codigo} — ${cert.cursoNombre}`);
+    await almacen.guardar(`Emite ${cert.codigo} - ${cert.cursoNombre}`);
   } catch (e) {
     certs.pop(); // sin persistencia no hay emisión válida
     console.error(e.message);

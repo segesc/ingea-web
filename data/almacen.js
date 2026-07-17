@@ -1,8 +1,8 @@
 // Almacén de certificados con persistencia en GitHub (repo privado de datos).
 //
 // Modo GitHub (producción): define las variables de entorno
-//   GITHUB_TOKEN      — fine-grained PAT con permiso Contents: Read/Write SOLO sobre el repo de datos
-//   GITHUB_DATA_REPO  — p.ej. "Segcd/ingea-datos"
+//   GITHUB_TOKEN      - fine-grained PAT con permiso Contents: Read/Write SOLO sobre el repo de datos
+//   GITHUB_DATA_REPO  - p.ej. "Segcd/ingea-datos"
 // Cada guardado es un commit: el historial del repo es la traza inmutable de emisiones.
 //
 // Modo local (desarrollo): sin esas variables, usa data/certificados.json como siempre.
