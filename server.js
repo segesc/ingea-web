@@ -23,8 +23,21 @@ const sessions = new Map(); // token -> { user, creado }
 const intentosLogin = new Map(); // ip -> { fallos, bloqueadoHasta }
 
 app.use(compression());
+app.use((req, res, next) => {
+  res.set('X-Content-Type-Options', 'nosniff');
+  res.set('X-Frame-Options', 'SAMEORIGIN'); // el panel /admin no debe poder embeberse en un iframe ajeno
+  res.set('Referrer-Policy', 'strict-origin-when-cross-origin');
+  next();
+});
 app.use(express.json());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(
+  express.static(path.join(__dirname, 'public'), {
+    setHeaders: (res, filePath) => {
+      const cache = /[/\\]img[/\\]/.test(filePath) ? 'public, max-age=604800' : 'public, max-age=3600';
+      res.set('Cache-Control', cache);
+    },
+  })
+);
 
 // ---------- persistencia de certificados (ver data/almacen.js) ----------
 function genCodigo(certs) {
