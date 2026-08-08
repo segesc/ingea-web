@@ -50,7 +50,7 @@
       </div>
       <div class="hero-stats">
         <div data-fundido><b><em>+</em><span data-contar="2400">0</span></b><span>Profesionales capacitados</span></div>
-        <div data-fundido><b><span data-contar="8">0</span></b><span>Programas especializados</span></div>
+        <div data-fundido><b><span data-contar="14">0</span></b><span>Programas especializados</span></div>
         <div data-fundido><b><em>+</em><span data-contar="120">0</span></b><span>Horas por programa</span></div>
         <div data-fundido><b><span data-contar="98">0</span><em>%</em></b><span>Satisfacción de egresados</span></div>
       </div>
@@ -74,7 +74,7 @@
           <span class="micro">Oferta académica 2026</span>
           <h2 class="titulo-seccion" style="margin-top:18px">Cursos de <span class="it">especialización</span></h2>
         </div>
-        <span class="indice-gigante">08</span>
+        <span class="indice-gigante" id="indiceGigante">08</span>
       </div>
       <div class="lista-cursos" id="listaCursos" data-grupo></div>
     </div>
@@ -247,9 +247,11 @@
       document.getElementById('selloLogo').innerHTML = INGEA.logoSVG(56);
 
       // marquee
-      const temas = ['SEIA', 'Fiscalización OEFA', 'ECA · LMP', 'ISO 14001', 'Residuos sólidos', 'EIA', 'Cierre de minas', 'Monitoreo ambiental', 'PMBOK'];
+      const temas = ['SEIA', 'Fiscalización OEFA', 'ECA · LMP', 'ISO 14001', 'Residuos sólidos', 'EIA', 'Cierre de minas', 'Monitoreo ambiental', 'PMBOK', 'SIG ambiental', 'Huella de carbono', 'ISO 45001', 'ANA', 'Power BI'];
       const tira = temas.map((t) => `<span>${t}</span>`).join('');
       document.getElementById('marqueePista').innerHTML = tira + tira;
+
+      document.getElementById('indiceGigante').textContent = String(cursos.length).padStart(2, '0');
 
       // lista editorial de cursos
       document.getElementById('listaCursos').innerHTML = cursos.map((c, i) => `
