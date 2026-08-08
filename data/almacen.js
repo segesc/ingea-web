@@ -19,8 +19,9 @@ const API = `https://api.github.com/repos/${REPO}/contents/${RUTA}`;
 let certs = [];
 let sha = null; // sha del blob remoto, requerido por la API para actualizar
 let cola = Promise.resolve(); // serializa los guardados para evitar carreras de sha
+let modoDegradado = false; // GitHub configurado pero inalcanzable al iniciar: cae a modo local
 
-const modoGitHub = () => Boolean(TOKEN && REPO);
+const modoGitHub = () => Boolean(TOKEN && REPO) && !modoDegradado;
 
 function cabeceras() {
   return {
@@ -59,19 +60,31 @@ async function iniciar() {
     console.log(`Almacén local: ${certs.length} certificados (sin GITHUB_TOKEN/GITHUB_DATA_REPO)`);
     return;
   }
-  const r = await fetch(API, { headers: cabeceras() });
-  if (r.ok) {
-    const j = await r.json();
-    sha = j.sha;
-    certs = JSON.parse(Buffer.from(j.content, 'base64').toString('utf8'));
-  } else if (r.status === 404) {
-    certs = [];
-    await subir('Inicializa el registro de certificados');
-  } else {
-    const detalle = await r.text().catch(() => '');
-    throw new Error(`GitHub datos: no se pudo leer (${r.status}) ${detalle.slice(0, 200)}`);
+  try {
+    const r = await fetch(API, { headers: cabeceras() });
+    if (r.ok) {
+      const j = await r.json();
+      sha = j.sha;
+      certs = JSON.parse(Buffer.from(j.content, 'base64').toString('utf8'));
+    } else if (r.status === 404) {
+      certs = [];
+      await subir('Inicializa el registro de certificados');
+    } else {
+      const detalle = await r.text().catch(() => '');
+      throw new Error(`GitHub datos respondió ${r.status}: ${detalle.slice(0, 200)}`);
+    }
+    console.log(`Almacén GitHub (${REPO}): ${certs.length} certificados`);
+  } catch (e) {
+    // El repo de datos no existe o es inalcanzable: no tumbar el servidor,
+    // seguir con el archivo local para no perder disponibilidad.
+    modoDegradado = true;
+    console.error(`ALMACÉN: GitHub (${REPO}) inalcanzable (${e.message}). Cae a modo local: los nuevos certificados NO persistirán entre reinicios hasta que se arregle GITHUB_DATA_REPO.`);
+    try {
+      certs = JSON.parse(fs.readFileSync(ARCHIVO_LOCAL, 'utf8'));
+    } catch {
+      certs = [];
+    }
   }
-  console.log(`Almacén GitHub (${REPO}): ${certs.length} certificados`);
 }
 
 // Lista viva en memoria: las rutas la leen y la mutan, y luego llaman a guardar().

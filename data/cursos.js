@@ -8,7 +8,7 @@ const CONFIG = {
   whatsappDisplay: '+51 921 588 178',
   email: 'informes@ingeaperu.com',
   direccion: 'Av. Javier Prado Este 476, Of. 702, San Isidro - Lima, Perú',
-  web: 'ingea.onrender.com',
+  web: 'ingea-3z2m.onrender.com',
   registro: 'RUC 20609431287',
   gerente: 'Mg. Ing. Ricardo A. Salazar Peña',
   directora: 'Dra. Mariel Antúnez Rojas',

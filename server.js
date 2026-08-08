@@ -284,7 +284,7 @@ app.get('/curso/:slug', (req, res) => {
       'content="Cursos de especialización en gestión ambiental con certificación verificable con QR."',
       `content="${curso.resumen}"`
     )
-    .replace('content="https://ingea.onrender.com/img/hero-panorama.jpg"', `content="${imagenAbsoluta}"`);
+    .replace('content="https://ingea-3z2m.onrender.com/img/hero-panorama.jpg"', `content="${imagenAbsoluta}"`);
   res.send(html);
 });
 app.get('/verificar', page('verificar.html'));

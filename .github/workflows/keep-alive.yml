@@ -13,5 +13,5 @@ jobs:
     steps:
       - name: Ping a la web
         run: |
-          curl -sS -o /dev/null -w 'home: %{http_code}\n' --max-time 80 https://ingea.onrender.com/ || true
-          curl -sS -o /dev/null -w 'css:  %{http_code}\n' --max-time 80 https://ingea.onrender.com/css/styles.css || true
+          curl -sS -o /dev/null -w 'home: %{http_code}\n' --max-time 80 https://ingea-3z2m.onrender.com/ || true
+          curl -sS -o /dev/null -w 'css:  %{http_code}\n' --max-time 80 https://ingea-3z2m.onrender.com/css/styles.css || true
